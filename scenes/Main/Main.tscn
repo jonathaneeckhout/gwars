@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://d17qalcy4jhno"]
+
+[ext_resource type="Script" path="res://scenes/Main/Main.cs" id="1_t08p0"]
+[ext_resource type="PackedScene" uid="uid://dcmbjam34yeer" path="res://scenes/ConnectionManager/NetworkManager.tscn" id="2_lt861"]
+[ext_resource type="PackedScene" uid="uid://da8dpxpsj610c" path="res://scenes/Map/Map.tscn" id="3_c87vc"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_t08p0")
+
+[node name="NetworkManager" parent="." instance=ExtResource("2_lt861")]
+unique_name_in_owner = true
+
+[node name="Map" parent="." instance=ExtResource("3_c87vc")]
+
+[node name="UICanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="NetworkControl" type="Control" parent="UICanvasLayer"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="UICanvasLayer/NetworkControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -189.5
+offset_top = -62.5
+offset_right = 189.5
+offset_bottom = 62.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UICanvasLayer/NetworkControl/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UICanvasLayer/NetworkControl/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UICanvasLayer/NetworkControl/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Welcome to GWars, please select your mode:"
+
+[node name="ServerButton" type="Button" parent="UICanvasLayer/NetworkControl/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Server"
+
+[node name="ClientButton" type="Button" parent="UICanvasLayer/NetworkControl/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Client"
