@@ -5,8 +5,14 @@
 [node name="Map" type="Node2D"]
 script = ExtResource("1_okw1t")
 
-[node name="Units" type="Node2D" parent="."]
-
 [node name="UnitMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/units/Worker/Worker.tscn")
 spawn_path = NodePath("../Units")
+
+[node name="Units" type="Node2D" parent="."]
+
+[node name="PlayerMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/Player/Player.tscn")
+spawn_path = NodePath("../Players")
+
+[node name="Players" type="Node2D" parent="."]

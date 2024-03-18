@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://suxy2alwikor"]
+
+[ext_resource type="Script" path="res://scenes/Player/Player.cs" id="1_x7lnc"]
+[ext_resource type="Script" path="res://scenes/Player/PlayerInput.cs" id="2_rh5vl"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_x7lnc")
+
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_rh5vl")
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+unique_name_in_owner = true
