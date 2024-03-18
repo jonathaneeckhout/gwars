@@ -1,14 +1,21 @@
 [gd_scene load_steps=3 format=3 uid="uid://suxy2alwikor"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.cs" id="1_x7lnc"]
-[ext_resource type="Script" path="res://scenes/Player/PlayerInput.cs" id="2_rh5vl"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fk4og"]
+properties/0/path = NodePath(".:Username")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:PeerID")
+properties/1/spawn = true
+properties/1/replication_mode = 0
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_x7lnc")
 
-[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
-unique_name_in_owner = true
-script = ExtResource("2_rh5vl")
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_fk4og")
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 unique_name_in_owner = true

@@ -7,25 +7,34 @@ public partial class Player : Node2D
     // Called when the node enters the scene tree for the first time.
     private Camera2D playerCamera = null;
 
-    private string playerName = "Player";
+    private string username = "Player";
 
-    public string PlayerName { get{
-        return playerName;
+    [Export]
+    public string Username
+    {
+        get
+        {
+            return username;
+        }
+        set
+        {
+            username = value;
+            Name = username;
+        }
     }
-    set{
-        playerName = value;
-        Name = playerName;
-    } }
+
+    [Export]
+    public long PeerID { get; set; } = -1;
 
     public override void _Ready()
     {
-        playerInput = GetNode<PlayerInput>("%PlayerInput");
+        // playerInput = GetNode<PlayerInput>("%PlayerInput");
         playerCamera = GetNode<Camera2D>("%PlayerCamera");
 
-        // If we are the server, we don't need to process input.
-        if (Multiplayer.IsServer())
+        // If we are the server or other players, we don't need to process input.
+        if (Multiplayer.IsServer() || PeerID != Multiplayer.GetUniqueId())
         {
-            playerInput.QueueFree();
+            SetProcessInput(false);
             playerCamera.QueueFree();
         }
     }

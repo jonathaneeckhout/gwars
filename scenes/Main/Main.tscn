@@ -1,10 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://d17qalcy4jhno"]
+[gd_scene load_steps=4 format=3 uid="uid://d17qalcy4jhno"]
 
 [ext_resource type="Script" path="res://scenes/Main/Main.cs" id="1_t08p0"]
+[ext_resource type="PackedScene" uid="uid://da8dpxpsj610c" path="res://scenes/Map/Map.tscn" id="2_e31rn"]
 [ext_resource type="PackedScene" uid="uid://dcmbjam34yeer" path="res://scenes/ConnectionManager/NetworkManager.tscn" id="2_lt861"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_t08p0")
+
+[node name="Map" parent="." instance=ExtResource("2_e31rn")]
+unique_name_in_owner = true
 
 [node name="NetworkManager" parent="." instance=ExtResource("2_lt861")]
 unique_name_in_owner = true

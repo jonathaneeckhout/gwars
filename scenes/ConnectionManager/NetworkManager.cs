@@ -4,13 +4,12 @@ using System;
 public partial class NetworkManager : Node
 {
     [Signal] public delegate void ClientConnectedEventHandler(bool result);
-
     [Signal] public delegate void ClientLoggedInEventHandler(bool result);
+    [Signal] public delegate void ServerClientLoggedInEventHandler(Client client);
+
     private ENetMultiplayerPeer server = null;
     private ENetMultiplayerPeer client = null;
-
     private Node clients = null;
-
     private PackedScene clientScene = GD.Load<PackedScene>("res://scenes/Client/Client.tscn");
 
     // Called when the node enters the scene tree for the first time.
@@ -170,6 +169,8 @@ public partial class NetworkManager : Node
         // TODO: Check username and password
         client.Username = username;
         client.IsLoggedIn = true;
+
+        EmitSignal(SignalName.ServerClientLoggedIn, client);
 
         RpcId(id, "LoginResponse", client.IsLoggedIn);
     }

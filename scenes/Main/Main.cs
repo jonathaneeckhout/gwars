@@ -6,16 +6,16 @@ public partial class Main : Node2D
     private const string server_address = "127.0.0.1";
     private const int server_port = 9876;
 
-    private CanvasLayer uiCanvasLayer;
+    private CanvasLayer uiCanvasLayer = null;
 
-    private NetworkManager networkManager;
+    private NetworkManager networkManager = null;
+
+    private Map map = null;
     private Control networkControl = null;
 
     private ConnectScreen connectScreen = null;
 
     private LoginScreen loginScreen = null;
-
-    private PackedScene mapScene = GD.Load<PackedScene>("res://scenes/Map/Map.tscn");
 
     private PackedScene connectScene = GD.Load<PackedScene>("res://scenes/ui/ConnectScreen/ConnectScreen.tscn");
 
@@ -29,6 +29,8 @@ public partial class Main : Node2D
 
         // Get the network manager
         networkManager = GetNode<NetworkManager>("%NetworkManager");
+
+        map = GetNode<Map>("%Map");
 
         // Get the network control panel
         networkControl = GetNode<Control>("%NetworkControl");
@@ -70,8 +72,7 @@ public partial class Main : Node2D
 
         networkManager.StartServer(server_port);
 
-        var map = mapScene.Instantiate() as Map;
-        AddChild(map);
+        map.NetworkManager = networkManager;
     }
 
     private void StartClient()
@@ -164,7 +165,6 @@ public partial class Main : Node2D
         loginScreen.QueueFree();
         loginScreen = null;
 
-        var map = mapScene.Instantiate() as Map;
-        AddChild(map);
+        map.NetworkManager = networkManager;
     }
 }
