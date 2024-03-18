@@ -67,3 +67,8 @@ secret = true
 unique_name_in_owner = true
 layout_mode = 2
 text = "Login"
+
+[node name="ErrorLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1

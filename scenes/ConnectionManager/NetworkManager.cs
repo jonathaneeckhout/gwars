@@ -4,6 +4,8 @@ using System;
 public partial class NetworkManager : Node
 {
     [Signal] public delegate void ClientConnectedEventHandler(bool result);
+
+    [Signal] public delegate void ClientLoggedInEventHandler(bool result);
     private ENetMultiplayerPeer server = null;
     private ENetMultiplayerPeer client = null;
 
@@ -44,7 +46,7 @@ public partial class NetworkManager : Node
 
     }
 
-    private void AddClient(long id)
+    private void ServerAddClient(long id)
     {
         var client = clientScene.Instantiate() as Client;
         client.PeerID = id;
@@ -52,24 +54,23 @@ public partial class NetworkManager : Node
         clients.AddChild(client);
     }
 
-    private void RemoveClient(long id)
+    private void ServerRemoveClient(long id)
     {
-        var client = clients.GetNode<Client>($"Client{id}");
-        client?.QueueFree();
+        if (clients.HasNode($"Client{id}"))
+        {
+            var client = clients.GetNode<Client>($"Client{id}");
+            client.QueueFree();
+        }
     }
 
-    private void OnPeerConnected(long id)
+    private Client ServerGetClient(long id)
     {
-        GD.Print($"Peer connected: {id}");
+        if (clients.HasNode($"Client{id}"))
+        {
+            return clients.GetNode<Client>($"Client{id}");
+        }
 
-        AddClient(id);
-    }
-
-    private void OnPeerDisconnected(long id)
-    {
-        GD.Print($"Peer disconnected: {id}");
-
-        RemoveClient(id);
+        return null;
     }
 
     public bool StartClient(string address, int port)
@@ -99,7 +100,7 @@ public partial class NetworkManager : Node
         return true;
     }
 
-    private void CloseClient()
+    public void CloseClient()
     {
         if (client != null)
         {
@@ -114,10 +115,23 @@ public partial class NetworkManager : Node
         }
     }
 
+    private void OnPeerConnected(long id)
+    {
+        GD.Print($"Peer connected: {id}");
+
+        ServerAddClient(id);
+    }
+
+    private void OnPeerDisconnected(long id)
+    {
+        GD.Print($"Peer disconnected: {id}");
+
+        ServerRemoveClient(id);
+    }
+
     private void OnConnectedToServer()
     {
         GD.Print("Connected to server");
-        AddClient(Multiplayer.GetUniqueId());
 
         EmitSignal(SignalName.ClientConnected, true);
     }
@@ -134,10 +148,37 @@ public partial class NetworkManager : Node
     private void OnServerDisconnected()
     {
         GD.Print("Server disconnected");
-        RemoveClient(Multiplayer.GetUniqueId());
 
         CloseClient();
 
         EmitSignal(SignalName.ClientConnected, false);
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+    public void LoginToServer(string username, string password)
+    {
+        GD.Print("Login request from: " + Multiplayer.GetRemoteSenderId() + " username: " + username);
+        var id = Multiplayer.GetRemoteSenderId();
+
+        var client = ServerGetClient(id);
+        if (client == null)
+        {
+            GD.Print("Client not found");
+            return;
+        }
+
+        // TODO: Check username and password
+        client.Username = username;
+        client.IsLoggedIn = true;
+
+        RpcId(id, "LoginResponse", client.IsLoggedIn);
+    }
+
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+    public void LoginResponse(bool response)
+    {
+        GD.Print("Login response: " + response);
+        EmitSignal(SignalName.ClientLoggedIn, response);
     }
 }

@@ -94,21 +94,6 @@ public partial class Main : Node2D
             connectScreen.ConnectButtonPressed += OnConnectButtonPressed;
         }
 
-
-        // var res = await ToSignal(connectScreen, ConnectScreen.SignalName.ConnectButtonPressed);
-
-        // 
-
-        // connectScreen.Hide();
-        // connectScreen.QueueFree();
-
-        // GD.Print(res.GetValue(1));
-
-        // var loginScreen = loginScreenScene.Instantiate() as Control;
-        // uiCanvasLayer.AddChild(loginScreen);
-
-        // var map = mapScene.Instantiate() as Map;
-        // AddChild(map);
     }
 
     private async void OnConnectButtonPressed(string address, int port)
@@ -141,5 +126,45 @@ public partial class Main : Node2D
         connectScreen.Hide();
         connectScreen.QueueFree();
         connectScreen = null;
+
+        if (loginScreen == null)
+        {
+            loginScreen = loginScreenScene.Instantiate() as LoginScreen;
+            uiCanvasLayer.AddChild(loginScreen);
+
+            loginScreen.LoginButtonPressed += OnLoginButtonPressed;
+        }
+    }
+
+    private async void OnLoginButtonPressed(string username, string password)
+    {
+
+        if (loginScreen == null)
+        {
+            GD.Print("Login screen is null");
+            return;
+        }
+
+        loginScreen.ShowError("Logging in...");
+
+        GD.Print($"Username: {username}, Password: {password}");
+        networkManager.RpcId(1, NetworkManager.MethodName.LoginToServer, username, password);
+
+
+        var loggedIn = await ToSignal(networkManager, NetworkManager.SignalName.ClientLoggedIn);
+        if (!(bool)loggedIn[0])
+        {
+            loginScreen.ShowError("Could not log in");
+            return;
+        }
+
+        loginScreen.ShowError("Logged in");
+
+        loginScreen.Hide();
+        loginScreen.QueueFree();
+        loginScreen = null;
+
+        var map = mapScene.Instantiate() as Map;
+        AddChild(map);
     }
 }
