@@ -3,7 +3,6 @@ using System;
 
 public partial class Player : Node2D
 {
-    private PlayerInput playerInput = null;
     // Called when the node enters the scene tree for the first time.
     private Camera2D playerCamera = null;
 
@@ -28,7 +27,6 @@ public partial class Player : Node2D
 
     public override void _Ready()
     {
-        // playerInput = GetNode<PlayerInput>("%PlayerInput");
         playerCamera = GetNode<Camera2D>("%PlayerCamera");
 
         // If we are the server or other players, we don't need to process input.
