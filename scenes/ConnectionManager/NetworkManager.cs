@@ -74,12 +74,13 @@ public partial class NetworkManager : Node
 
     public bool StartClient(string address, int port)
     {
-        GD.Print("Starting as client, connecting to server at " + address + ":" + port);
-
-        if (Multiplayer.MultiplayerPeer == client)
+        if (client != null)
         {
-            Multiplayer.MultiplayerPeer.Close();
+            GD.Print("Client already started");
+            return true;
         }
+
+        GD.Print("Starting as client, connecting to server at " + address + ":" + port);
 
         client = new ENetMultiplayerPeer();
         var error = client.CreateClient(address, port);
@@ -89,12 +90,6 @@ public partial class NetworkManager : Node
             return false;
         }
 
-
-        if (Multiplayer.MultiplayerPeer == client)
-        {
-            return true;
-        }
-
         Multiplayer.ConnectedToServer += OnConnectedToServer;
         Multiplayer.ConnectionFailed += OnConnectionFailed;
         Multiplayer.ServerDisconnected += OnServerDisconnected;
@@ -102,6 +97,21 @@ public partial class NetworkManager : Node
         Multiplayer.MultiplayerPeer = client;
 
         return true;
+    }
+
+    private void CloseClient()
+    {
+        if (client != null)
+        {
+            Multiplayer.ConnectedToServer -= OnConnectedToServer;
+            Multiplayer.ConnectionFailed -= OnConnectionFailed;
+            Multiplayer.ServerDisconnected -= OnServerDisconnected;
+
+            client.Close();
+
+            Multiplayer.MultiplayerPeer = null;
+            client = null;
+        }
     }
 
     private void OnConnectedToServer()
@@ -116,6 +126,8 @@ public partial class NetworkManager : Node
     {
         GD.Print("Connection failed");
 
+        CloseClient();
+
         EmitSignal(SignalName.ClientConnected, false);
     }
 
@@ -123,6 +135,8 @@ public partial class NetworkManager : Node
     {
         GD.Print("Server disconnected");
         RemoveClient(Multiplayer.GetUniqueId());
+
+        CloseClient();
 
         EmitSignal(SignalName.ClientConnected, false);
     }
