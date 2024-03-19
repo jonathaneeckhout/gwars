@@ -3,6 +3,8 @@ using System;
 
 public partial class Player : Node2D
 {
+    public Map Map = null;
+
     // Called when the node enters the scene tree for the first time.
     private Camera2D playerCamera = null;
 
@@ -50,7 +52,7 @@ public partial class Player : Node2D
             switch (mouseEvent.ButtonIndex)
             {
                 case MouseButton.Left:
-                    GD.Print($"Left button was clicked at {mouseEvent.Position}");
+                    RpcId(1, MethodName.CreateWorker, GetGlobalMousePosition());
 
                     break;
                 case MouseButton.WheelUp:
@@ -59,4 +61,17 @@ public partial class Player : Node2D
             }
         }
     }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+    public void CreateWorker(Vector2 position)
+    {
+        if (!Multiplayer.IsServer())
+        {
+            GD.Print("CreateWorker called on non-server node. Ignoring.");
+            return;
+        }
+
+        Map.CreateWorker(position);
+    }
+
 }

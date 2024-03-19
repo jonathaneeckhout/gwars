@@ -42,13 +42,14 @@ public partial class Map : Node2D
     {
         var worker = workerScene.Instantiate() as Worker;
         worker.Position = position;
-        units.AddChild(worker);
+        units.AddChild(worker, true);
     }
     private void OnServerClientLoggedIn(Client client)
     {
         var player = playerScene.Instantiate() as Player;
+        player.Map = this;
         player.Username = client.Username;
         player.PeerID = client.PeerID;
-        players.AddChild(player);
+        players.AddChild(player, true);
     }
 }
