@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://suxy2alwikor"]
+[gd_scene load_steps=5 format=3 uid="uid://suxy2alwikor"]
 
-[ext_resource type="Script" path="res://scenes/Player/Player.cs" id="1_x7lnc"]
+[ext_resource type="Script" path="res://scenes/Player/Player.cs" id="1_bc5h1"]
+[ext_resource type="PackedScene" uid="uid://bg8a54fpg8wxo" path="res://components/player/UnitSelectionComponent/UnitSelectionComponent.tscn" id="2_xg6f7"]
+[ext_resource type="PackedScene" uid="uid://33er3l3c56p4" path="res://components/player/InputComponent/InputComponent.tscn" id="3_wis6t"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fk4og"]
 properties/0/path = NodePath(".:Username")
@@ -11,11 +13,17 @@ properties/1/spawn = true
 properties/1/replication_mode = 0
 
 [node name="Player" type="Node2D"]
-script = ExtResource("1_x7lnc")
+script = ExtResource("1_bc5h1")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_fk4og")
+
+[node name="UnitSelectionComponent" parent="." instance=ExtResource("2_xg6f7")]
+unique_name_in_owner = true
+
+[node name="InputComponent" parent="." instance=ExtResource("3_wis6t")]
+unique_name_in_owner = true
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 unique_name_in_owner = true

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bg8a54fpg8wxo"]
+
+[ext_resource type="Script" path="res://components/player/UnitSelectionComponent/UnitSelectionComponent.cs" id="1_dnpsa"]
+
+[node name="UnitSelectionComponent" type="Node2D"]
+script = ExtResource("1_dnpsa")
+
+[node name="SelectionPanel" type="Panel" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0

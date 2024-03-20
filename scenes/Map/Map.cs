@@ -33,20 +33,15 @@ public partial class Map : Node2D
 
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-    }
-
     public void CreateWorker(Vector2 position)
     {
-        var worker = workerScene.Instantiate() as Worker;
+        Worker worker = (Worker)workerScene.Instantiate();
         worker.Position = position;
         units.AddChild(worker, true);
     }
     private void OnServerClientLoggedIn(Client client)
     {
-        var player = playerScene.Instantiate() as Player;
+        Player player = (Player)playerScene.Instantiate();
         player.Map = this;
         player.Username = client.Username;
         player.PeerID = client.PeerID;

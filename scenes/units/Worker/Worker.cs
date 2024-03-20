@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Worker : CharacterBody2D
+public partial class Worker : Unit
 {
     public const float Speed = 300.0f;
 
