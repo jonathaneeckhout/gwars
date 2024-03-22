@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://suxy2alwikor"]
+[gd_scene load_steps=6 format=3 uid="uid://suxy2alwikor"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.cs" id="1_bc5h1"]
 [ext_resource type="PackedScene" uid="uid://bg8a54fpg8wxo" path="res://components/player/UnitSelectionComponent/UnitSelectionComponent.tscn" id="2_xg6f7"]
 [ext_resource type="PackedScene" uid="uid://33er3l3c56p4" path="res://components/player/InputComponent/InputComponent.tscn" id="3_wis6t"]
+[ext_resource type="PackedScene" uid="uid://dlkil1mpmm54r" path="res://scenes/ui/DebugMenu/DebugMenu.tscn" id="4_xwlqp"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fk4og"]
 properties/0/path = NodePath(".:Username")
@@ -27,3 +28,14 @@ unique_name_in_owner = true
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 unique_name_in_owner = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="DebugMenu" parent="UI" instance=ExtResource("4_xwlqp")]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+grow_horizontal = 0
+grow_vertical = 0

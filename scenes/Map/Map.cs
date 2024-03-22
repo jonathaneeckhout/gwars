@@ -31,9 +31,10 @@ public partial class Map : Node2D
         units = GetNode<Node2D>("%Units");
         players = GetNode<Node2D>("%Players");
 
+        players.ChildEnteredTree += OnPlayersChildEnteredTree;
     }
 
-    public void CreateWorker(Vector2 position)
+    public void ServerCreateWorker(Vector2 position)
     {
         Worker worker = (Worker)workerScene.Instantiate();
         worker.Position = position;
@@ -46,5 +47,27 @@ public partial class Map : Node2D
         player.Username = client.Username;
         player.PeerID = client.PeerID;
         players.AddChild(player, true);
+    }
+
+    private void OnPlayersChildEnteredTree(Node child)
+    {
+        GD.Print("Child entered tree");
+        if (child is Player player)
+        {
+            GD.Print("Setting player map");
+            player.Map = this;
+        }
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+    public void CreateWorkerRPC(Vector2 position)
+    {
+        if (!Multiplayer.IsServer())
+        {
+            GD.Print("CreateWorker called on non-server node. Ignoring.");
+            return;
+        }
+
+        ServerCreateWorker(position);
     }
 }
