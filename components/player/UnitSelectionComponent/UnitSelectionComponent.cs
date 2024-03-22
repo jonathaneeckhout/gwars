@@ -1,17 +1,18 @@
-using System;
 using Godot;
+using Godot.Collections;
+using System;
 
 public partial class UnitSelectionComponent : Node2D
 {
     [Signal]
-    public delegate void UnitsSelectedEventHandler(Godot.Collections.Array<Unit> units);
+    public delegate void UnitsSelectedEventHandler(Array<Unit> units);
 
     [Signal]
-    public delegate void UnitsDeselectedEventHandler(Godot.Collections.Array<Unit> units);
+    public delegate void UnitsDeselectedEventHandler(Array<Unit> units);
 
 
     [Export]
-    public Godot.Collections.Array<Unit> selectedUnits = new();
+    public Array<Unit> selectedUnits = new();
 
     [Export]
     public bool Enabled
@@ -97,12 +98,12 @@ public partial class UnitSelectionComponent : Node2D
         {
             CollideWithAreas = false,
             CollideWithBodies = true,
-            CollisionMask = 2,
+            CollisionMask = 1,
             Shape = selectRectangle,
             Transform = new Transform2D(0, new Vector2(topCorner.X + (width / 2), topCorner.Y + (height / 2)))
         };
-        Godot.Collections.Array<Godot.Collections.Dictionary> selected = space.IntersectShape(query);
-        foreach (Godot.Collections.Dictionary res in selected)
+        Array<Dictionary> selected = space.IntersectShape(query);
+        foreach (Dictionary res in selected)
         {
             Node node = res["collider"].As<Node>();
             if (node is Unit unit)

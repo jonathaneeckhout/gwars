@@ -26,6 +26,7 @@ public partial class Player : Node2D
     private CanvasLayer ui = null;
     private UnitSelectionComponent unitSelectionComponent = null;
     private InputComponent inputComponent = null;
+    private GroupComponent groupComponent = null;
 
     private DebugMenu debugMenu = null;
 
@@ -39,6 +40,9 @@ public partial class Player : Node2D
 
         inputComponent = GetNode<InputComponent>("%InputComponent");
         inputComponent.UnitSelectionComponent = unitSelectionComponent;
+
+        groupComponent = GetNode<GroupComponent>("%GroupComponent");
+        groupComponent.UnitSelectionComponent = unitSelectionComponent;
 
         debugMenu = GetNode<DebugMenu>("%DebugMenu");
         debugMenu.Player = this;
@@ -54,40 +58,4 @@ public partial class Player : Node2D
             return;
         }
     }
-
-    // // Called every frame. 'delta' is the elapsed time since the previous frame.
-    // public override void _PhysicsProcess(double delta)
-    // {
-
-    // }
-
-    // public override void _Input(InputEvent @event)
-    // {
-    //     if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
-    //     {
-    //         switch (mouseEvent.ButtonIndex)
-    //         {
-    //             case MouseButton.Left:
-    //                 RpcId(1, MethodName.CreateWorker, GetGlobalMousePosition());
-
-    //                 break;
-    //             case MouseButton.WheelUp:
-    //                 GD.Print("Wheel up");
-    //                 break;
-    //         }
-    //     }
-    // }
-
-    // [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-    // public void CreateWorker(Vector2 position)
-    // {
-    //     if (!Multiplayer.IsServer())
-    //     {
-    //         GD.Print("CreateWorker called on non-server node. Ignoring.");
-    //         return;
-    //     }
-
-    //     Map.CreateWorker(position);
-    // }
-
 }
