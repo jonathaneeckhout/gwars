@@ -4,6 +4,7 @@ using System;
 public partial class InputComponent : Node2D
 {
     public UnitSelectionComponent UnitSelectionComponent { get; set; } = null;
+    public GroupComponent GroupComponent { get; set; } = null;
 
 
     private bool numSelected = false;
@@ -18,6 +19,10 @@ public partial class InputComponent : Node2D
             UnitSelectionComponent.Enabled = !numSelected;
 
             GD.Print("Num1 pressed");
+        }
+        else if (Input.IsActionJustReleased("right_click"))
+        {
+            GroupComponent.RpcId(1, GroupComponent.MethodName.MoveGroupRPC, GetGlobalMousePosition());
         }
     }
 }

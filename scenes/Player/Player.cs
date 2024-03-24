@@ -38,11 +38,12 @@ public partial class Player : Node2D
 
         unitSelectionComponent = GetNode<UnitSelectionComponent>("%UnitSelectionComponent");
 
-        inputComponent = GetNode<InputComponent>("%InputComponent");
-        inputComponent.UnitSelectionComponent = unitSelectionComponent;
-
         groupComponent = GetNode<GroupComponent>("%GroupComponent");
         groupComponent.UnitSelectionComponent = unitSelectionComponent;
+
+        inputComponent = GetNode<InputComponent>("%InputComponent");
+        inputComponent.UnitSelectionComponent = unitSelectionComponent;
+        inputComponent.GroupComponent = groupComponent;
 
         debugMenu = GetNode<DebugMenu>("%DebugMenu");
         debugMenu.Player = this;
