@@ -25,6 +25,7 @@ public partial class Map : Node2D
     private Node2D materials = null;
     private PackedScene playerScene = GD.Load<PackedScene>("res://scenes/Player/Player.tscn");
     private PackedScene workerScene = GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn");
+    private PackedScene townhallScene = GD.Load<PackedScene>("res://scenes/units/buildings/Townhall/Townhall.tscn");
     private PackedScene treeScene = GD.Load<PackedScene>("res://scenes/materials/Tree/Tree.tscn");
 
     // Called when the node enters the scene tree for the first time.
@@ -50,6 +51,10 @@ public partial class Map : Node2D
                 Worker worker = (Worker)workerScene.Instantiate();
                 worker.Position = position;
                 units.AddChild(worker, true); break;
+            case "Townhall":
+                Townhall townhall = (Townhall)townhallScene.Instantiate();
+                townhall.Position = position;
+                units.AddChild(townhall, true); break;
             case "Tree":
                 Tree tree = (Tree)treeScene.Instantiate();
                 tree.Position = position;

@@ -7,6 +7,7 @@ public partial class DebugMenu : Control
     public Map Map { get; set; } = null;
     private bool selected = false;
     private Button workerButton = null;
+    private Button townhallButton = null;
     private Button treeButton = null;
     private PanelContainer previewPanel = null;
     private Label previewLabel = null;
@@ -16,6 +17,9 @@ public partial class DebugMenu : Control
     {
         workerButton = GetNode<Button>("%WorkerButton");
         workerButton.Pressed += OnWorkerButtonPressed;
+
+        townhallButton = GetNode<Button>("%TownhallButton");
+        townhallButton.Pressed += OnTownhallButtonPressed;
 
         treeButton = GetNode<Button>("%TreeButton");
         treeButton.Pressed += OnTreeButtonPressed;
@@ -75,6 +79,16 @@ public partial class DebugMenu : Control
         {
             previewPanel.Show();
             previewLabel.Text = "Worker";
+            selected = true;
+        }
+    }
+
+    private void OnTownhallButtonPressed()
+    {
+        if (!selected)
+        {
+            previewPanel.Show();
+            previewLabel.Text = "Townhall";
             selected = true;
         }
     }

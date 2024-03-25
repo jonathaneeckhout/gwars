@@ -6,7 +6,7 @@
 script = ExtResource("1_okw1t")
 
 [node name="UnitMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://scenes/units/minions/Worker/Worker.tscn")
+_spawnable_scenes = PackedStringArray("res://scenes/units/minions/Worker/Worker.tscn", "res://scenes/units/buildings/Townhall/Townhall.tscn")
 spawn_path = NodePath("../Units")
 
 [node name="Units" type="Node2D" parent="."]
