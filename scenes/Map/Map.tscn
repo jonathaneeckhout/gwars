@@ -1,11 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://da8dpxpsj610c"]
+[gd_scene load_steps=3 format=3 uid="uid://da8dpxpsj610c"]
 
 [ext_resource type="Script" path="res://scenes/Map/Map.cs" id="1_okw1t"]
+[ext_resource type="PackedScene" uid="uid://bs8n1s05ajqbh" path="res://scenes/commodities/Tree/Tree.tscn" id="2_cyium"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_okw1t")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="UnitMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/units/Worker/Worker.tscn")
 spawn_path = NodePath("../Units")
 
@@ -18,3 +19,13 @@ spawn_path = NodePath("../Players")
 
 [node name="Players" type="Node2D" parent="."]
 unique_name_in_owner = true
+
+[node name="CommodityMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/commodities/Tree/Tree.tscn")
+spawn_path = NodePath("../Commodities")
+
+[node name="Commodities" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Tree" parent="Commodities" instance=ExtResource("2_cyium")]
+position = Vector2(88, 121)
