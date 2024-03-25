@@ -51,3 +51,10 @@ grow_vertical = 2
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_50f6b")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -36.0
+offset_top = -56.0
+offset_right = 36.0
+offset_bottom = -33.0
+text = "Townhall"

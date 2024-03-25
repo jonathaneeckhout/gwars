@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1rg4a62xm54p"]
+
+[ext_resource type="Script" path="res://components/player/MaterialComponent/MaterialComponent.cs" id="1_gj3h3"]
+
+[node name="MaterialComponent" type="Node"]
+script = ExtResource("1_gj3h3")

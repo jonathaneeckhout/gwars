@@ -36,3 +36,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_32xg4")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_6rf5m")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+offset_bottom = -17.0
+text = "Tree"

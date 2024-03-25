@@ -27,8 +27,10 @@ public partial class Player : Node2D
     private UnitSelectionComponent unitSelectionComponent = null;
     private InputComponent inputComponent = null;
     private GroupComponent groupComponent = null;
+    private MaterialComponent materialComponent = null;
 
     private DebugMenu debugMenu = null;
+    private MaterialsMenu materialsMenu = null;
 
     public override void _Ready()
     {
@@ -46,12 +48,18 @@ public partial class Player : Node2D
         inputComponent.UnitSelectionComponent = unitSelectionComponent;
         inputComponent.GroupComponent = groupComponent;
 
+        materialComponent = GetNode<MaterialComponent>("%MaterialComponent");
+
         debugMenu = GetNode<DebugMenu>("%DebugMenu");
         debugMenu.Player = this;
         debugMenu.Map = Map;
 
+        materialsMenu = GetNode<MaterialsMenu>("%MaterialsMenu");
+        materialsMenu.Player = this;
+        materialsMenu.MaterialComponent = materialComponent;
+
         // If we are the server or other players, we don't need to process input.
-        if (Multiplayer.IsServer() || PeerID != Multiplayer.GetUniqueId())
+        if (!IsOwnPlayer())
         {
             SetProcessInput(false);
             playerCamera.QueueFree();
@@ -59,5 +67,10 @@ public partial class Player : Node2D
 
             return;
         }
+    }
+
+    public bool IsOwnPlayer()
+    {
+        return !Multiplayer.IsServer() && Multiplayer.GetUniqueId() == PeerID;
     }
 }

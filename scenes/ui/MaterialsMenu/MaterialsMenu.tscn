@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf03t0g52otfp"]
+
+[ext_resource type="Script" path="res://scenes/ui/MaterialsMenu/MaterialsMenu.cs" id="1_aj465"]
+
+[node name="MaterialsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -672.0
+offset_bottom = -560.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aj465")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="FoodContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="FoodLabel" type="Label" parent="PanelContainer/HBoxContainer/FoodContainer"]
+layout_mode = 2
+text = "Food:"
+
+[node name="FoodValue" type="Label" parent="PanelContainer/HBoxContainer/FoodContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="GoldContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="GoldLabel" type="Label" parent="PanelContainer/HBoxContainer/GoldContainer"]
+layout_mode = 2
+text = "Gold:"
+
+[node name="GoldValue" type="Label" parent="PanelContainer/HBoxContainer/GoldContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
