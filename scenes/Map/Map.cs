@@ -24,7 +24,7 @@ public partial class Map : Node2D
     private Node2D players = null;
     private Node2D materials = null;
     private PackedScene playerScene = GD.Load<PackedScene>("res://scenes/Player/Player.tscn");
-    private PackedScene workerScene = GD.Load<PackedScene>("res://scenes/units/Worker/Worker.tscn");
+    private PackedScene workerScene = GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn");
     private PackedScene treeScene = GD.Load<PackedScene>("res://scenes/materials/Tree/Tree.tscn");
 
     // Called when the node enters the scene tree for the first time.

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://lr4mx43gha1i"]
 
-[ext_resource type="Script" path="res://scenes/units/Worker/Worker.cs" id="1_if4td"]
+[ext_resource type="Script" path="res://scenes/units/minions/Worker/Worker.cs" id="1_if4td"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6yal7"]
 radius = 16.0
