@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bs8n1s05ajqbh"]
 
-[ext_resource type="Script" path="res://scenes/commodities/Tree/Tree.cs" id="1_dqe3y"]
+[ext_resource type="Script" path="res://scenes/materials/Tree/Tree.cs" id="1_dqe3y"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_27bqo"]
 radius = 16.0

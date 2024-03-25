@@ -22,14 +22,17 @@ public partial class Map : Node2D
 
     private Node2D units = null;
     private Node2D players = null;
+    private Node2D materials = null;
     private PackedScene playerScene = GD.Load<PackedScene>("res://scenes/Player/Player.tscn");
     private PackedScene workerScene = GD.Load<PackedScene>("res://scenes/units/Worker/Worker.tscn");
+    private PackedScene treeScene = GD.Load<PackedScene>("res://scenes/materials/Tree/Tree.tscn");
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         units = GetNode<Node2D>("%Units");
         players = GetNode<Node2D>("%Players");
+        materials = GetNode<Node2D>("%Materials");
 
         players.ChildEnteredTree += OnPlayersChildEnteredTree;
     }
@@ -39,11 +42,23 @@ public partial class Map : Node2D
         return units.GetNodeOrNull<Unit>(name);
     }
 
-    public void ServerCreateWorker(Vector2 position)
+    public void ServerCreateEntity(string entityName, Vector2 position)
     {
-        Worker worker = (Worker)workerScene.Instantiate();
-        worker.Position = position;
-        units.AddChild(worker, true);
+        switch (entityName)
+        {
+            case "Worker":
+                Worker worker = (Worker)workerScene.Instantiate();
+                worker.Position = position;
+                units.AddChild(worker, true); break;
+            case "Tree":
+                Tree tree = (Tree)treeScene.Instantiate();
+                tree.Position = position;
+                materials.AddChild(tree, true); break;
+            default:
+                GD.Print("Unknown unit name: " + entityName);
+                break;
+        }
+
     }
     private void OnServerClientLoggedIn(Client client)
     {
@@ -65,14 +80,14 @@ public partial class Map : Node2D
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-    public void CreateWorkerRPC(Vector2 position)
+    public void CreateEntityRPC(string entityName, Vector2 position)
     {
         if (!Multiplayer.IsServer())
         {
-            GD.Print("CreateWorker called on non-server node. Ignoring.");
+            GD.Print("CreateEntityRPC called on non-server node. Ignoring.");
             return;
         }
 
-        ServerCreateWorker(position);
+        ServerCreateEntity(entityName, position);
     }
 }

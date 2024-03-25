@@ -7,6 +7,7 @@ public partial class DebugMenu : Control
     public Map Map { get; set; } = null;
     private bool selected = false;
     private Button workerButton = null;
+    private Button treeButton = null;
     private PanelContainer previewPanel = null;
     private Label previewLabel = null;
 
@@ -15,6 +16,9 @@ public partial class DebugMenu : Control
     {
         workerButton = GetNode<Button>("%WorkerButton");
         workerButton.Pressed += OnWorkerButtonPressed;
+
+        treeButton = GetNode<Button>("%TreeButton");
+        treeButton.Pressed += OnTreeButtonPressed;
 
         previewPanel = GetNode<PanelContainer>("%PreviewPanel");
         previewLabel = GetNode<Label>("%PreviewLabel");
@@ -50,14 +54,7 @@ public partial class DebugMenu : Control
             return;
         }
 
-        switch (previewLabel.Text)
-        {
-            case "Worker":
-                Map.RpcId(1, Map.MethodName.CreateWorkerRPC, Player.GetGlobalMousePosition());
-                return;
-            default:
-                return;
-        }
+        Map.RpcId(1, Map.MethodName.CreateEntityRPC, previewLabel.Text, Player.GetGlobalMousePosition());
     }
 
     private void ResetSelected()
@@ -78,6 +75,16 @@ public partial class DebugMenu : Control
         {
             previewPanel.Show();
             previewLabel.Text = "Worker";
+            selected = true;
+        }
+    }
+
+    private void OnTreeButtonPressed()
+    {
+        if (!selected)
+        {
+            previewPanel.Show();
+            previewLabel.Text = "Tree";
             selected = true;
         }
     }
