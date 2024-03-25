@@ -4,6 +4,8 @@ using System;
 
 public partial class GroupComponent : Node
 {
+    public Map Map { get; set; } = null;
+
     private UnitSelectionComponent unitSelectionComponent = null;
 
     public UnitSelectionComponent UnitSelectionComponent
@@ -37,12 +39,14 @@ public partial class GroupComponent : Node
 
     void OnUnitsSelected(Array<Unit> units)
     {
+        Array<string> unitNames = new Array<string>();
         foreach (Unit unit in units)
         {
+            unitNames.Add(unit.Name);
             unit.SetSelected(true);
         }
 
-        RpcId(1, MethodName.SelectUnitsRPC, units);
+        RpcId(1, MethodName.SelectUnitsRPC, unitNames);
 
     }
 
@@ -57,14 +61,21 @@ public partial class GroupComponent : Node
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-    public void SelectUnitsRPC(Array<Unit> units)
+    public void SelectUnitsRPC(Array<string> units)
     {
         if (!Multiplayer.IsServer())
         {
             return;
         }
 
-        Members = units.Duplicate();
+        foreach (string unitName in units)
+        {
+            Unit unit = Map.GetUnit(unitName);
+            if (unit != null)
+            {
+                Members.Add(unit);
+            }
+        }
     }
 
 
@@ -87,13 +98,8 @@ public partial class GroupComponent : Node
             return;
         }
 
-
-        GD.Print("Moving group");
-        GD.Print("Members count: " + Members.Count);
-
         foreach (Unit unit in Members)
         {
-            GD.Print("Moving unit to " + position);
             unit.MoveTo(position);
         }
     }

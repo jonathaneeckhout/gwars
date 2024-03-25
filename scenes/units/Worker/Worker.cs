@@ -44,8 +44,6 @@ public partial class Worker : Unit
 
     public override void MoveTo(Vector2 position)
     {
-        GD.Print("Moving worker");
         targetPosition = position;
     }
-
 }

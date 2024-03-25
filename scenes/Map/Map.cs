@@ -34,6 +34,11 @@ public partial class Map : Node2D
         players.ChildEnteredTree += OnPlayersChildEnteredTree;
     }
 
+    public Unit GetUnit(string name)
+    {
+        return units.GetNodeOrNull<Unit>(name);
+    }
+
     public void ServerCreateWorker(Vector2 position)
     {
         Worker worker = (Worker)workerScene.Instantiate();

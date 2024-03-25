@@ -39,6 +39,7 @@ public partial class Player : Node2D
         unitSelectionComponent = GetNode<UnitSelectionComponent>("%UnitSelectionComponent");
 
         groupComponent = GetNode<GroupComponent>("%GroupComponent");
+        groupComponent.Map = Map;
         groupComponent.UnitSelectionComponent = unitSelectionComponent;
 
         inputComponent = GetNode<InputComponent>("%InputComponent");
