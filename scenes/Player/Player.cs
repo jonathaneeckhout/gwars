@@ -87,4 +87,19 @@ public partial class Player : Node2D
     {
         return !Multiplayer.IsServer() && Multiplayer.GetUniqueId() == PeerID;
     }
+
+    public bool AddMaterial(string materialType, uint amount)
+    {
+        switch (materialType)
+        {
+            case "Gold":
+                materialComponent.Gold += amount;
+                return true;
+            case "Food":
+                materialComponent.Food += amount;
+                return true;
+            default:
+                return false;
+        }
+    }
 }

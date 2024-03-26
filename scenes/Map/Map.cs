@@ -34,12 +34,18 @@ public partial class Map : Node2D
         players = GetNode<Node2D>("%Players");
         materials = GetNode<Node2D>("%Materials");
 
+        units.ChildEnteredTree += OnUnitsChildEnteredTree;
         players.ChildEnteredTree += OnPlayersChildEnteredTree;
     }
 
     public Unit GetUnit(string name)
     {
         return units.GetNodeOrNull<Unit>(name);
+    }
+
+    public Player GetPlayer(string name)
+    {
+        return players.GetNodeOrNull<Player>(name);
     }
 
     public Material GetMaterial(string name)
@@ -54,11 +60,13 @@ public partial class Map : Node2D
             case "Worker":
                 Worker worker = (Worker)workerScene.Instantiate();
                 worker.PlayerName = player.Name;
+                worker.Map = this;
                 worker.Position = position;
                 units.AddChild(worker, true); break;
             case "Townhall":
                 Townhall townhall = (Townhall)townhallScene.Instantiate();
                 townhall.PlayerName = player.Name;
+                townhall.Map = this;
                 townhall.Position = position;
                 units.AddChild(townhall, true); break;
             case "Tree":
@@ -101,6 +109,14 @@ public partial class Map : Node2D
         players.AddChild(player, true);
 
         client.Player = player;
+    }
+
+    private void OnUnitsChildEnteredTree(Node child)
+    {
+        if (child is Unit unit)
+        {
+            unit.Map = this;
+        }
     }
 
     private void OnPlayersChildEnteredTree(Node child)

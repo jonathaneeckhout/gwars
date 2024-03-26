@@ -4,4 +4,10 @@ using System;
 public partial class Townhall : Unit
 {
     public override bool IsStorage { get; set; } = true;
+
+    public override bool StoreMaterial(string materialType, uint amount)
+    {
+        Player player = Map.GetPlayer(PlayerName);
+        return player.AddMaterial(materialType, amount);
+    }
 }

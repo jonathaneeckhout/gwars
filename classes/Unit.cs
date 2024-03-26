@@ -4,7 +4,9 @@ using System;
 public partial class Unit : CharacterBody2D
 {
     [Export]
-    public string PlayerName { get; set; }
+    public string PlayerName { get; set; } = "";
+
+    public Map Map { get; set; } = null;
     public virtual bool IsStorage { get; set; } = false;
     protected Vector2 targetPosition = Vector2.Zero;
 
@@ -34,5 +36,8 @@ public partial class Unit : CharacterBody2D
 
     public virtual void GatherMaterial(Material material, Unit Storage) { }
 
-    public virtual void StoreMaterial(string materialType, uint amount) { }
+    public virtual bool StoreMaterial(string materialType, uint amount)
+    {
+        return false;
+    }
 }

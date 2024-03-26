@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://lr4mx43gha1i"]
+[gd_scene load_steps=6 format=3 uid="uid://lr4mx43gha1i"]
 
 [ext_resource type="Script" path="res://scenes/units/minions/Worker/Worker.cs" id="1_if4td"]
 
@@ -15,6 +15,9 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath(".:PlayerName")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vmptl"]
+radius = 64.0
 
 [node name="Worker" type="CharacterBody2D"]
 script = ExtResource("1_if4td")
@@ -67,3 +70,9 @@ offset_bottom = -17.0
 grow_horizontal = 2
 text = "Worker"
 horizontal_alignment = 1
+
+[node name="InteractArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+shape = SubResource("CircleShape2D_vmptl")
