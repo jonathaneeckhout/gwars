@@ -103,4 +103,32 @@ public partial class GroupComponent : Node
             unit.MoveTo(position);
         }
     }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+    public void GatherMaterialRPC(string materialName, string storageName)
+    {
+        if (!Multiplayer.IsServer())
+        {
+            return;
+        }
+
+        Material material = Map.GetMaterial(materialName);
+        if (material == null)
+        {
+            GD.Print("Material not found");
+            return;
+        }
+
+        Unit storage = Map.GetUnit(storageName);
+        if (storage == null)
+        {
+            GD.Print("Storage not found");
+            return;
+        }
+
+        foreach (Unit unit in Members)
+        {
+            unit.GatherMaterial(material, storage);
+        }
+    }
 }

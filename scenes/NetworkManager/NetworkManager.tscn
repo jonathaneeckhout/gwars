@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dcmbjam34yeer"]
 
-[ext_resource type="Script" path="res://scenes/ConnectionManager/NetworkManager.cs" id="1_c3p2a"]
+[ext_resource type="Script" path="res://scenes/NetworkManager/NetworkManager.cs" id="1_c3p2a"]
 
 [node name="NetworkManager" type="Node"]
 script = ExtResource("1_c3p2a")

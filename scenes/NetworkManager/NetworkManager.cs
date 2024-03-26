@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class NetworkManager : Node
 {
@@ -12,15 +13,9 @@ public partial class NetworkManager : Node
     private Node clients = null;
     private PackedScene clientScene = GD.Load<PackedScene>("res://scenes/Client/Client.tscn");
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         clients = GetNode<Node>("%Clients");
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
     }
 
     public void StartServer(int port)
@@ -42,7 +37,6 @@ public partial class NetworkManager : Node
         Multiplayer.MultiplayerPeer = server;
 
         GD.Print("Server started");
-
     }
 
     private void ServerAddClient(long id)
@@ -68,6 +62,19 @@ public partial class NetworkManager : Node
         {
             return clients.GetNode<Client>($"Client{id}");
         }
+
+        return null;
+    }
+
+    public Player GetPlayerViaPeerID(long id)
+    {
+        Client client = ServerGetClient(id);
+        if (client != null)
+        {
+            return client.Player;
+        }
+
+        GD.Print("Client not found with peer id: " + id);
 
         return null;
     }

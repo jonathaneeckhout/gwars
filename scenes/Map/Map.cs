@@ -28,7 +28,6 @@ public partial class Map : Node2D
     private PackedScene townhallScene = GD.Load<PackedScene>("res://scenes/units/buildings/Townhall/Townhall.tscn");
     private PackedScene treeScene = GD.Load<PackedScene>("res://scenes/materials/Tree/Tree.tscn");
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         units = GetNode<Node2D>("%Units");
@@ -43,16 +42,23 @@ public partial class Map : Node2D
         return units.GetNodeOrNull<Unit>(name);
     }
 
-    public void ServerCreateEntity(string entityName, Vector2 position)
+    public Material GetMaterial(string name)
+    {
+        return materials.GetNodeOrNull<Material>(name);
+    }
+
+    public void ServerCreateEntity(Player player, string entityName, Vector2 position)
     {
         switch (entityName)
         {
             case "Worker":
                 Worker worker = (Worker)workerScene.Instantiate();
+                worker.Player = player;
                 worker.Position = position;
                 units.AddChild(worker, true); break;
             case "Townhall":
                 Townhall townhall = (Townhall)townhallScene.Instantiate();
+                townhall.Player = player;
                 townhall.Position = position;
                 units.AddChild(townhall, true); break;
             case "Tree":
@@ -72,6 +78,8 @@ public partial class Map : Node2D
         player.Username = client.Username;
         player.PeerID = client.PeerID;
         players.AddChild(player, true);
+
+        client.Player = player;
     }
 
     private void OnPlayersChildEnteredTree(Node child)
@@ -93,6 +101,13 @@ public partial class Map : Node2D
             return;
         }
 
-        ServerCreateEntity(entityName, position);
+        Player player = networkManager.GetPlayerViaPeerID(Multiplayer.GetRemoteSenderId());
+        if (player == null)
+        {
+            GD.Print("Player not found");
+            return;
+        }
+
+        ServerCreateEntity(player, entityName, position);
     }
 }

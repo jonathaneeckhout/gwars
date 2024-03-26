@@ -5,19 +5,10 @@ public partial class Worker : Unit
 {
     public const float Speed = 300.0f;
 
-    private Panel selectionPanel = null;
-
-    private Vector2 targetPosition = Vector2.Zero;
-
     public override void _Ready()
     {
-        targetPosition = Position;
-        selectionPanel = GetNode<Panel>("%SelectedPanel");
+        base._Ready();
 
-        if (!Multiplayer.IsServer())
-        {
-            SetPhysicsProcess(false);
-        }
     }
 
 
@@ -34,12 +25,6 @@ public partial class Worker : Unit
         }
 
         MoveAndSlide();
-    }
-
-
-    public override void SetSelected(bool value)
-    {
-        selectionPanel.Visible = value;
     }
 
     public override void MoveTo(Vector2 position)

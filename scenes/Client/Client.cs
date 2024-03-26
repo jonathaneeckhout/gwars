@@ -10,8 +10,5 @@ public partial class Client : Node
     [Export]
     public bool IsLoggedIn { get; set; } = false;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-    }
+    public Player Player { get; set; } = null;
 }
