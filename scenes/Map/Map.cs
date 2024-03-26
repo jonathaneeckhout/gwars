@@ -27,6 +27,7 @@ public partial class Map : Node2D
     private PackedScene workerScene = GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn");
     private PackedScene townhallScene = GD.Load<PackedScene>("res://scenes/units/buildings/Townhall/Townhall.tscn");
     private PackedScene treeScene = GD.Load<PackedScene>("res://scenes/materials/Tree/Tree.tscn");
+    private PackedScene berriesScene = GD.Load<PackedScene>("res://scenes/materials/Berries/Berries.tscn");
 
     public override void _Ready()
     {
@@ -62,17 +63,25 @@ public partial class Map : Node2D
                 worker.PlayerName = player.Name;
                 worker.Map = this;
                 worker.Position = position;
-                units.AddChild(worker, true); break;
+                units.AddChild(worker, true);
+                break;
             case "Townhall":
                 Townhall townhall = (Townhall)townhallScene.Instantiate();
                 townhall.PlayerName = player.Name;
                 townhall.Map = this;
                 townhall.Position = position;
-                units.AddChild(townhall, true); break;
+                units.AddChild(townhall, true);
+                break;
             case "Tree":
                 Tree tree = (Tree)treeScene.Instantiate();
                 tree.Position = position;
-                materials.AddChild(tree, true); break;
+                materials.AddChild(tree, true);
+                break;
+            case "Berries":
+                Berries berries = (Berries)berriesScene.Instantiate();
+                berries.Position = position;
+                materials.AddChild(berries, true);
+                break;
             default:
                 GD.Print("Unknown unit name: " + entityName);
                 break;

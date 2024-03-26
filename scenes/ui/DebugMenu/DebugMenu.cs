@@ -9,6 +9,7 @@ public partial class DebugMenu : Control
     private Button workerButton = null;
     private Button townhallButton = null;
     private Button treeButton = null;
+    private Button berriesButton = null;
     private PanelContainer previewPanel = null;
     private Label previewLabel = null;
 
@@ -23,6 +24,9 @@ public partial class DebugMenu : Control
 
         treeButton = GetNode<Button>("%TreeButton");
         treeButton.Pressed += OnTreeButtonPressed;
+
+        berriesButton = GetNode<Button>("%BerriesButton");
+        berriesButton.Pressed += OnBerriesButtonPressed;
 
         previewPanel = GetNode<PanelContainer>("%PreviewPanel");
         previewLabel = GetNode<Label>("%PreviewLabel");
@@ -99,6 +103,16 @@ public partial class DebugMenu : Control
         {
             previewPanel.Show();
             previewLabel.Text = "Tree";
+            selected = true;
+        }
+    }
+
+    private void OnBerriesButtonPressed()
+    {
+        if (!selected)
+        {
+            previewPanel.Show();
+            previewLabel.Text = "Berries";
             selected = true;
         }
     }

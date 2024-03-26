@@ -16,15 +16,12 @@ script = ExtResource("1_76xrp")
 [node name="PanelContainer" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -98.0
-offset_top = -63.0
+offset_left = -111.0
+offset_bottom = 197.0
 grow_horizontal = 0
-grow_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -64,6 +61,18 @@ theme_override_constants/margin_bottom = 16
 unique_name_in_owner = true
 layout_mode = 2
 text = "Tree"
+
+[node name="MarginContainer4" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="BerriesButton" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Berries"
 
 [node name="PreviewPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true

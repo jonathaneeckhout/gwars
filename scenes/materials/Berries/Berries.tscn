@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://0iw0p5macjmt"]
+
+[ext_resource type="Script" path="res://scenes/materials/Berries/Berries.cs" id="1_wg1ij"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_si3oh"]
+radius = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mcgbn"]
+bg_color = Color(0, 0.47451, 0.0862745, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_pf45y"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+
+[node name="Berries" type="StaticBody2D"]
+script = ExtResource("1_wg1ij")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_si3oh")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_mcgbn")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -28.0
+offset_top = -40.0
+offset_right = 28.0
+offset_bottom = -17.0
+text = "Berries"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_pf45y")

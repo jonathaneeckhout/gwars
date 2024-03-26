@@ -20,7 +20,7 @@ spawn_path = NodePath("../Players")
 unique_name_in_owner = true
 
 [node name="MaterialMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://scenes/materials/Tree/Tree.tscn")
+_spawnable_scenes = PackedStringArray("res://scenes/materials/Tree/Tree.tscn", "res://scenes/materials/Berries/Berries.tscn")
 spawn_path = NodePath("../Materials")
 
 [node name="Materials" type="Node2D" parent="."]
