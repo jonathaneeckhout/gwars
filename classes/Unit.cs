@@ -3,8 +3,9 @@ using System;
 
 public partial class Unit : CharacterBody2D
 {
-
-    public Player Player { get; set; } = null;
+    [Export]
+    public string PlayerName { get; set; }
+    public virtual bool IsStorage { get; set; } = false;
     protected Vector2 targetPosition = Vector2.Zero;
 
     protected Panel selectionPanel = null;

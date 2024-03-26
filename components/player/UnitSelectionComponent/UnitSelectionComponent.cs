@@ -10,7 +10,6 @@ public partial class UnitSelectionComponent : Node2D
     [Signal]
     public delegate void UnitsDeselectedEventHandler(Array<Unit> units);
 
-
     [Export]
     public Array<Unit> selectedUnits = new();
 
@@ -32,7 +31,6 @@ public partial class UnitSelectionComponent : Node2D
             dragging = false;
         }
     }
-
     private Panel selectionPanel = null;
 
     private bool enabled = true;

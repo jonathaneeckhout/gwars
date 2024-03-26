@@ -1,15 +1,17 @@
-using Godot;
 using System;
+using Godot;
+using Godot.Collections;
+
 
 public partial class InputComponent : Node2D
 {
     public UnitSelectionComponent UnitSelectionComponent { get; set; } = null;
     public GroupComponent GroupComponent { get; set; } = null;
 
+    public Map Map { get; set; } = null;
+    public Player Player { get; set; } = null;
 
     private bool numSelected = false;
-
-    // Called when the node enters the scene tree for the first time.
 
     public override void _Input(InputEvent @event)
     {
@@ -20,9 +22,79 @@ public partial class InputComponent : Node2D
 
             GD.Print("Num1 pressed");
         }
-        else if (Input.IsActionJustReleased("right_click"))
+        else if (Input.IsActionJustPressed("right_click"))
         {
-            GroupComponent.RpcId(1, GroupComponent.MethodName.MoveGroupRPC, GetGlobalMousePosition());
+            HandleRightClick();
         }
+    }
+
+    private void HandleRightClick()
+    {
+        Node2D target = QueryTargetsUnderMouse();
+        if (target != null)
+        {
+            GD.Print("Target: " + target.Name);
+        }
+
+        if (GroupComponent.Members.Count > 0)
+        {
+            if (target != null)
+            {
+                if (target is Material)
+                {
+                    HandleGathering((Material)target);
+                }
+                else
+                {
+                    GroupComponent.RpcId(1, GroupComponent.MethodName.MoveGroupRPC, target.GlobalPosition);
+                }
+            }
+            else
+            {
+                GroupComponent.RpcId(1, GroupComponent.MethodName.MoveGroupRPC, GetGlobalMousePosition());
+            }
+        }
+    }
+
+    private void HandleGathering(Material material)
+    {
+        Vector2 averagePosition = GroupComponent.GetAveragePosition();
+
+        GD.Print("Average position: " + averagePosition);
+
+        Unit storage = Map.GetClosestStorage(Player.Name, averagePosition);
+        if (storage != null)
+        {
+            GroupComponent.RpcId(1, GroupComponent.MethodName.GatherMaterialRPC, material.Name, storage.Name);
+        }
+        else
+        {
+            GD.Print("No storage found");
+        }
+    }
+
+    private Node2D QueryTargetsUnderMouse()
+    {
+        Vector2 mousePosition = GetGlobalMousePosition();
+
+        PhysicsDirectSpaceState2D space = GetWorld2D().DirectSpaceState;
+
+        PhysicsPointQueryParameters2D pointParameters = new PhysicsPointQueryParameters2D();
+        pointParameters.CollisionMask = 1;
+        pointParameters.CollideWithAreas = false;
+        pointParameters.CollideWithBodies = true;
+        pointParameters.Position = mousePosition;
+
+        Array<Dictionary> spaceStateResults = space.IntersectPoint(pointParameters, 1);
+
+        if (spaceStateResults.Count > 0)
+        {
+            Dictionary spaceStateResult = (Godot.Collections.Dictionary)spaceStateResults[0];
+            Node2D target = (Node2D)spaceStateResult["collider"];
+
+            return target;
+        }
+
+        return null;
     }
 }

@@ -31,4 +31,9 @@ public partial class Worker : Unit
     {
         targetPosition = position;
     }
+
+    public override void GatherMaterial(Material material, Unit Storage)
+    {
+        GD.Print("Gathering material from " + material.Name + " to " + Storage.Name);
+    }
 }

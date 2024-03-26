@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Diagnostics;
 
 public partial class Player : Node2D
 {
@@ -40,32 +39,47 @@ public partial class Player : Node2D
 
         unitSelectionComponent = GetNode<UnitSelectionComponent>("%UnitSelectionComponent");
 
+        inputComponent = GetNode<InputComponent>("%InputComponent");
+
         groupComponent = GetNode<GroupComponent>("%GroupComponent");
         groupComponent.Map = Map;
-        groupComponent.UnitSelectionComponent = unitSelectionComponent;
-
-        inputComponent = GetNode<InputComponent>("%InputComponent");
-        inputComponent.UnitSelectionComponent = unitSelectionComponent;
-        inputComponent.GroupComponent = groupComponent;
 
         materialComponent = GetNode<MaterialComponent>("%MaterialComponent");
 
-        debugMenu = GetNode<DebugMenu>("%DebugMenu");
-        debugMenu.Player = this;
-        debugMenu.Map = Map;
-
-        materialsMenu = GetNode<MaterialsMenu>("%MaterialsMenu");
-        materialsMenu.Player = this;
-        materialsMenu.MaterialComponent = materialComponent;
-
-        // If we are the server or other players, we don't need to process input.
         if (!IsOwnPlayer())
         {
             SetProcessInput(false);
+
+            unitSelectionComponent.QueueFree();
+            unitSelectionComponent = null;
+
+            inputComponent.QueueFree();
+            inputComponent = null;
+
             playerCamera.QueueFree();
+            playerCamera = null;
+
             ui.QueueFree();
+            ui = null;
 
             return;
+        }
+        else
+        {
+            groupComponent.UnitSelectionComponent = unitSelectionComponent;
+
+            inputComponent.UnitSelectionComponent = unitSelectionComponent;
+            inputComponent.GroupComponent = groupComponent;
+            inputComponent.Map = Map;
+            inputComponent.Player = this;
+
+            debugMenu = GetNode<DebugMenu>("%DebugMenu");
+            debugMenu.Player = this;
+            debugMenu.Map = Map;
+
+            materialsMenu = GetNode<MaterialsMenu>("%MaterialsMenu");
+            materialsMenu.Player = this;
+            materialsMenu.MaterialComponent = materialComponent;
         }
     }
 

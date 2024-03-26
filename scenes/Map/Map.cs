@@ -53,12 +53,12 @@ public partial class Map : Node2D
         {
             case "Worker":
                 Worker worker = (Worker)workerScene.Instantiate();
-                worker.Player = player;
+                worker.PlayerName = player.Name;
                 worker.Position = position;
                 units.AddChild(worker, true); break;
             case "Townhall":
                 Townhall townhall = (Townhall)townhallScene.Instantiate();
-                townhall.Player = player;
+                townhall.PlayerName = player.Name;
                 townhall.Position = position;
                 units.AddChild(townhall, true); break;
             case "Tree":
@@ -71,6 +71,27 @@ public partial class Map : Node2D
         }
 
     }
+    public Unit GetClosestStorage(string playerName, Vector2 position)
+    {
+        Unit closestStorage = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (Node node in units.GetChildren())
+        {
+            if (node is Unit unit && unit.IsStorage && unit.PlayerName == playerName)
+            {
+                float distance = position.DistanceTo(unit.Position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestStorage = unit;
+                }
+            }
+        }
+
+        return closestStorage;
+    }
+
     private void OnServerClientLoggedIn(Client client)
     {
         Player player = (Player)playerScene.Instantiate();
@@ -84,10 +105,8 @@ public partial class Map : Node2D
 
     private void OnPlayersChildEnteredTree(Node child)
     {
-        GD.Print("Child entered tree");
         if (child is Player player)
         {
-            GD.Print("Setting player map");
             player.Map = this;
         }
     }

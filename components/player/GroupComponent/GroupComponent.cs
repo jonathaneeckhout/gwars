@@ -36,8 +36,23 @@ public partial class GroupComponent : Node
     [Export]
     public Array<Unit> Members { get; set; } = new Array<Unit>();
 
+    public Vector2 GetAveragePosition()
+    {
+        Vector2 averagePosition = Vector2.Zero;
+        if (Members.Count == 0)
+        {
+            return averagePosition;
+        }
 
-    void OnUnitsSelected(Array<Unit> units)
+        foreach (Unit unit in Members)
+        {
+            averagePosition += unit.Position;
+        }
+
+        return averagePosition / Members.Count;
+    }
+
+    private void OnUnitsSelected(Array<Unit> units)
     {
         Array<string> unitNames = new Array<string>();
         foreach (Unit unit in units)
@@ -46,16 +61,20 @@ public partial class GroupComponent : Node
             unit.SetSelected(true);
         }
 
+        Members = units.Duplicate();
+
         RpcId(1, MethodName.SelectUnitsRPC, unitNames);
 
     }
 
-    void OnUnitsDeselected(Array<Unit> units)
+    private void OnUnitsDeselected(Array<Unit> units)
     {
         foreach (Unit unit in units)
         {
             unit.SetSelected(false);
         }
+
+        Members.Clear();
 
         RpcId(1, MethodName.DeselectUnitsRPC, null);
     }
