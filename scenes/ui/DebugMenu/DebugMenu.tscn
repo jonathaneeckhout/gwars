@@ -74,6 +74,18 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Berries"
 
+[node name="MarginContainer5" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="CloseButton" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Close"
+
 [node name="PreviewPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 visible = false

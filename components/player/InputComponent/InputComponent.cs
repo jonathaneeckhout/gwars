@@ -60,8 +60,6 @@ public partial class InputComponent : Node2D
     {
         Vector2 averagePosition = GroupComponent.GetAveragePosition();
 
-        GD.Print("Average position: " + averagePosition);
-
         Unit storage = Map.GetClosestStorage(Player.Name, averagePosition);
         if (storage != null)
         {

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dx5jqbib7jdkm" path="res://components/player/GroupComponent/GroupComponent.tscn" id="4_v0ny3"]
 [ext_resource type="PackedScene" uid="uid://dlkil1mpmm54r" path="res://scenes/ui/DebugMenu/DebugMenu.tscn" id="4_xwlqp"]
 [ext_resource type="PackedScene" uid="uid://b1rg4a62xm54p" path="res://components/player/MaterialComponent/MaterialComponent.tscn" id="5_8qvwq"]
-[ext_resource type="PackedScene" uid="uid://bf03t0g52otfp" path="res://scenes/ui/MaterialsMenu/MaterialsMenu.tscn" id="7_21601"]
+[ext_resource type="PackedScene" uid="uid://crquf4hlpvyt4" path="res://scenes/ui/MainInterface/MainInterface.tscn" id="8_2uwy2"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fk4og"]
 properties/0/path = NodePath(".:Username")
@@ -57,5 +57,5 @@ offset_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 1
 
-[node name="MaterialsMenu" parent="UI" instance=ExtResource("7_21601")]
+[node name="MainInterface" parent="UI" instance=ExtResource("8_2uwy2")]
 unique_name_in_owner = true

@@ -29,7 +29,7 @@ public partial class Player : Node2D
     private MaterialComponent materialComponent = null;
 
     private DebugMenu debugMenu = null;
-    private MaterialsMenu materialsMenu = null;
+    private MainInterface mainInterface = null;
 
     public override void _Ready()
     {
@@ -77,9 +77,10 @@ public partial class Player : Node2D
             debugMenu.Player = this;
             debugMenu.Map = Map;
 
-            materialsMenu = GetNode<MaterialsMenu>("%MaterialsMenu");
-            materialsMenu.Player = this;
-            materialsMenu.MaterialComponent = materialComponent;
+            mainInterface = GetNode<MainInterface>("%MainInterface");
+            mainInterface.DebugMenu = debugMenu;
+            mainInterface.Player = this;
+            mainInterface.MaterialComponent = materialComponent;
         }
     }
 

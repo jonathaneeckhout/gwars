@@ -1,0 +1,85 @@
+[gd_scene load_steps=2 format=3 uid="uid://crquf4hlpvyt4"]
+
+[ext_resource type="Script" path="res://scenes/ui/MainInterface/MainInterface.cs" id="1_mbn7x"]
+
+[node name="MainInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 600.0
+script = ExtResource("1_mbn7x")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="FoodContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="FoodLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/FoodContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Food:"
+
+[node name="FoodValue" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/FoodContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+clip_text = true
+
+[node name="GoldContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="GoldLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GoldContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Gold:"
+
+[node name="GoldValue" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GoldContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+
+[node name="ShortcutContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MenuButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ShortcutContainer"]
+layout_mode = 2
+text = "Menu"
+
+[node name="BuildingsButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ShortcutContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Buildings"
+
+[node name="DebugButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ShortcutContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "DB"
+
+[node name="BuildingsContainer" type="GridContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+columns = 2
+
+[node name="TownhallButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/BuildingsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Townhall"

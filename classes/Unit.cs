@@ -3,6 +3,8 @@ using System;
 
 public partial class Unit : CharacterBody2D
 {
+    public const float Radius = 16.0f;
+
     [Export]
     public string PlayerName { get; set; } = "";
 

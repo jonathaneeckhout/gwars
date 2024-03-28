@@ -10,6 +10,7 @@ public partial class DebugMenu : Control
     private Button townhallButton = null;
     private Button treeButton = null;
     private Button berriesButton = null;
+    private Button closeButton = null;
     private PanelContainer previewPanel = null;
     private Label previewLabel = null;
 
@@ -27,6 +28,9 @@ public partial class DebugMenu : Control
 
         berriesButton = GetNode<Button>("%BerriesButton");
         berriesButton.Pressed += OnBerriesButtonPressed;
+
+        closeButton = GetNode<Button>("%CloseButton");
+        closeButton.Pressed += () => Hide();
 
         previewPanel = GetNode<PanelContainer>("%PreviewPanel");
         previewLabel = GetNode<Label>("%PreviewLabel");
