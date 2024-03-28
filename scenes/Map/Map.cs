@@ -109,6 +109,12 @@ public partial class Map : Node2D
         return closestStorage;
     }
 
+    public bool PlaceConstruction(string playerName, string buildingName, Vector2 position)
+    {
+
+        return true;
+    }
+
     private void OnServerClientLoggedIn(Client client)
     {
         Player player = (Player)playerScene.Instantiate();

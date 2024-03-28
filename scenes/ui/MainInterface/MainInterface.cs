@@ -5,6 +5,7 @@ public partial class MainInterface : Control
 {
 
     public Player Player { get; set; } = null;
+    public Map Map { get; set; } = null;
     public MaterialComponent MaterialComponent
     {
         get { return materialComponent; }
@@ -57,11 +58,24 @@ public partial class MainInterface : Control
         {
             HandleLeftClick();
         }
+        else if (Input.IsActionJustPressed("right_click"))
+        {
+            HandleRightClick();
+        }
     }
 
     private void HandleLeftClick()
     {
         if (buildingPreview != null)
+        {
+            buildingPreview.QueueFree();
+            buildingPreview = null;
+        }
+    }
+
+    private void HandleRightClick()
+    {
+        if (buildingPreview != null && Map.PlaceConstruction(Player.Username, buildingPreview.BuildingName, GetGlobalMousePosition()))
         {
             buildingPreview.QueueFree();
             buildingPreview = null;
@@ -84,7 +98,7 @@ public partial class MainInterface : Control
         buildingPreview = (BuildingPreview)buildingPreviewScene.Instantiate();
         buildingPreview.Name = "BuildingPreview";
         buildingPreview.Position = GetGlobalMousePosition();
-        AddChild(buildingPreview);
+        Map.AddChild(buildingPreview);
         // This is needed to be done after the add to make sure that the panel is fetched in the ready call
         buildingPreview.BuildingName = buildingName;
     }

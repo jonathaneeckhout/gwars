@@ -5,6 +5,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_6lyvc"]
 
 [node name="BuildingPreview" type="Area2D"]
+collision_layer = 0
 script = ExtResource("1_y2nwr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

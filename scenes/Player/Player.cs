@@ -80,6 +80,7 @@ public partial class Player : Node2D
             mainInterface = GetNode<MainInterface>("%MainInterface");
             mainInterface.DebugMenu = debugMenu;
             mainInterface.Player = this;
+            mainInterface.Map = Map;
             mainInterface.MaterialComponent = materialComponent;
         }
     }
