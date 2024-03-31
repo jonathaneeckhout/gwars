@@ -8,11 +8,14 @@ public partial class Worker : Unit
     public uint MaxMaterialsInBag { get; set; } = 5;
     public float GatherSpeed = 1.0f;
     public uint GatherEfficiency = 1;
+    public float RepairSpeed = 1.0f;
+    public uint RepairEfficiency = 1;
     private Area2D interactArea = null;
     private Timer gatherTimer = null;
-
+    private Timer repairTimer = null;
     private Material materialTarget = null;
     private Unit storageTarget = null;
+    private Unit repairTarget = null;
 
     private Array<Node> bodiesInInteractRange = new Array<Node>();
 
@@ -30,17 +33,45 @@ public partial class Worker : Unit
         interactArea.BodyEntered += OnInteractAreaBodyEntered;
         interactArea.BodyExited += OnInteractAreaBodyExited;
 
-        gatherTimer = new Timer();
-        gatherTimer.Name = "GatherTimer";
-        gatherTimer.OneShot = true;
-        gatherTimer.WaitTime = 1.0f;
-        gatherTimer.Autostart = false;
+        gatherTimer = new Timer
+        {
+            Name = "GatherTimer",
+            OneShot = true,
+            WaitTime = GatherSpeed,
+            Autostart = false
+        };
         gatherTimer.Timeout += OnGatherTimerTimeout;
         AddChild(gatherTimer);
+
+        repairTimer = new Timer
+        {
+            Name = "RepairTimer",
+            OneShot = true,
+            WaitTime = RepairSpeed,
+            Autostart = false
+        };
+        repairTimer.Timeout += OnRepairTimerTimeout;
+        AddChild(repairTimer);
     }
 
 
     public override void _PhysicsProcess(double delta)
+    {
+        if (!HandleGathering())
+        {
+            if (!HandleRepairing())
+            {
+                if (!HandleMoveTo())
+                {
+                    Velocity = Vector2.Zero;
+                }
+            }
+        }
+
+        MoveAndSlide();
+    }
+
+    private bool HandleGathering()
     {
         if (materialTarget != null && amountOfMaterialInBag < MaxMaterialsInBag)
         {
@@ -58,6 +89,7 @@ public partial class Worker : Unit
                 }
             }
 
+            return true;
         }
         else if (storageTarget != null)
         {
@@ -75,33 +107,79 @@ public partial class Worker : Unit
                     materialTypeInBag = "";
                 }
             }
+
+            return true;
         }
-        else if (Position.DistanceTo(targetPosition) > 8.0f)
+
+        return false;
+    }
+
+    private bool HandleRepairing()
+    {
+        if (repairTarget != null)
+        {
+            if (!bodiesInInteractRange.Contains(repairTarget))
+            {
+                Velocity = Position.DirectionTo(repairTarget.Position) * Speed;
+            }
+            else
+            {
+                Velocity = Vector2.Zero;
+
+                if (repairTimer.IsStopped())
+                {
+                    repairTimer.Start(RepairSpeed);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool HandleMoveTo()
+    {
+        if (Position.DistanceTo(targetPosition) > 8.0f)
         {
             Velocity = Position.DirectionTo(targetPosition) * Speed;
-
-        }
-        else
-        {
-            Velocity = Vector2.Zero;
+            return true;
         }
 
-        MoveAndSlide();
+        return false;
     }
 
     public override void MoveTo(Vector2 position)
     {
+        ResetInputs();
+
         targetPosition = position;
-        materialTarget = null;
-        storageTarget = null;
     }
 
     public override void GatherMaterial(Material material, Unit Storage)
     {
-        GD.Print("Gathering material from " + material.Name + " to " + Storage.Name);
+        ResetInputs();
+
         targetPosition = material.Position;
         materialTarget = material;
         storageTarget = Storage;
+
+    }
+
+    public override void RepairTarget(Unit target)
+    {
+        ResetInputs();
+
+        targetPosition = target.Position;
+        repairTarget = target;
+    }
+
+    private void ResetInputs()
+    {
+        materialTarget = null;
+        storageTarget = null;
+        repairTarget = null;
+        gatherTimer.Stop();
     }
 
     private void OnInteractAreaBodyEntered(Node body)
@@ -145,6 +223,25 @@ public partial class Worker : Unit
         {
             materialTypeInBag = materialTarget.MaterialType;
             amountOfMaterialInBag = GatherEfficiency;
+        }
+    }
+
+
+    private void OnRepairTimerTimeout()
+    {
+        if (repairTarget == null)
+        {
+            return;
+        }
+
+        if (!bodiesInInteractRange.Contains(repairTarget))
+        {
+            return;
+        }
+
+        if (!repairTarget.GetRepaired(RepairEfficiency))
+        {
+            repairTarget = null;
         }
     }
 }

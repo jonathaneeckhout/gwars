@@ -1,8 +1,9 @@
 using Godot;
 using System;
 
-public partial class BuildingPreview : Area2D
+public partial class Construction : Unit
 {
+    [Export]
     public string BuildingName
     {
         get
@@ -12,64 +13,60 @@ public partial class BuildingPreview : Area2D
         set
         {
             buildingName = value;
-            Name = buildingName;
-            label.Text = buildingName;
-            SetPanelSize();
+            Name = value + "-Construction";
+            SetInfo();
         }
-
     }
+    public override bool IsRepairable { get; set; } = true;
     private string buildingName = "";
     private Label label = null;
     private Panel panel = null;
     private CollisionShape2D collisionShape = null;
-    private uint bodyCollisionCount = 0;
+    private float constructionTime = 0.0f;
+    private float constructionProgress = 0.0f;
 
     public override void _Ready()
     {
         label = GetNode<Label>("Label");
         panel = GetNode<Panel>("Panel");
         collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
-        BodyEntered += OnBodyEntered;
-        BodyExited += OnBodyExited;
+
+        SetInfo();
     }
 
-    public override void _Process(double delta)
+    private void SetInfo()
     {
-        if (Visible)
+        if (label == null)
         {
-            Position = GetGlobalMousePosition();
+            return;
         }
+
+        label.Text = BuildingName + "-Construction";
+
+        SetPanelSize();
     }
 
     private void SetPanelSize()
     {
+
+        if (panel == null || collisionShape == null)
+        {
+            return;
+        }
         float radius = buildingName switch
         {
             "Townhall" => Townhall.Radius,
             _ => Unit.Radius,
         };
+
         panel.Size = new Vector2(radius * 2, radius * 2);
         panel.Position = new Vector2(-radius, -radius);
         collisionShape.Shape = new CircleShape2D { Radius = radius };
     }
 
-    private void OnBodyEntered(Node body)
+    public override bool GetRepaired(float amount)
     {
-        bodyCollisionCount++;
-
-        panel.Modulate = new Color(1.0f, 0.0f, 0.0f, 1.0f);
-    }
-
-    private void OnBodyExited(Node body)
-    {
-        if (bodyCollisionCount > 0)
-        {
-            bodyCollisionCount--;
-        }
-
-        if (bodyCollisionCount == 0)
-        {
-            panel.Modulate = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-        }
+        GD.Print("Repairing " + Name + " by " + amount);
+        return true;
     }
 }

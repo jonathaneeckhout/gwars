@@ -75,8 +75,9 @@ public partial class MainInterface : Control
 
     private void HandleRightClick()
     {
-        if (buildingPreview != null && Map.PlaceConstruction(Player.Username, buildingPreview.BuildingName, GetGlobalMousePosition()))
+        if (buildingPreview != null)
         {
+            Map.RpcId(1, Map.MethodName.PlaceConstructionRPC, buildingPreview.BuildingName, Player.GetGlobalMousePosition());
             buildingPreview.QueueFree();
             buildingPreview = null;
         }
@@ -97,7 +98,7 @@ public partial class MainInterface : Control
 
         buildingPreview = (BuildingPreview)buildingPreviewScene.Instantiate();
         buildingPreview.Name = "BuildingPreview";
-        buildingPreview.Position = GetGlobalMousePosition();
+        buildingPreview.Position = Player.GetGlobalMousePosition();
         Map.AddChild(buildingPreview);
         // This is needed to be done after the add to make sure that the panel is fetched in the ready call
         buildingPreview.BuildingName = buildingName;

@@ -40,9 +40,27 @@ public partial class InputComponent : Node2D
         {
             if (target != null)
             {
-                if (target is Material)
+                if (target is Material material)
                 {
-                    HandleGathering((Material)target);
+                    HandleGathering(material);
+                }
+                else if (target is Unit targetUnit)
+                {
+                    if (targetUnit.PlayerName == Player.Name)
+                    {
+                        if (targetUnit.IsRepairable)
+                        {
+                            GroupComponent.RpcId(1, GroupComponent.MethodName.RepairGroupRPC, target.Name);
+                        }
+                        else
+                        {
+                            GroupComponent.RpcId(1, GroupComponent.MethodName.MoveGroupRPC, target.GlobalPosition);
+                        }
+                    }
+                    else
+                    {
+                        GroupComponent.RpcId(1, GroupComponent.MethodName.AttackGroupRPC, target.Name);
+                    }
                 }
                 else
                 {

@@ -28,6 +28,7 @@ public partial class Map : Node2D
     private PackedScene townhallScene = GD.Load<PackedScene>("res://scenes/units/buildings/Townhall/Townhall.tscn");
     private PackedScene treeScene = GD.Load<PackedScene>("res://scenes/materials/Tree/Tree.tscn");
     private PackedScene berriesScene = GD.Load<PackedScene>("res://scenes/materials/Berries/Berries.tscn");
+    private PackedScene constructionScene = GD.Load<PackedScene>("res://scenes/units/buildings/Construction/Construction.tscn");
 
     public override void _Ready()
     {
@@ -109,8 +110,14 @@ public partial class Map : Node2D
         return closestStorage;
     }
 
-    public bool PlaceConstruction(string playerName, string buildingName, Vector2 position)
+    public bool ServerPlaceConstruction(Player player, string buildingName, Vector2 position)
     {
+
+        Construction construction = (Construction)constructionScene.Instantiate();
+        construction.PlayerName = player.Name;
+        construction.Position = position;
+        construction.BuildingName = buildingName;
+        units.AddChild(construction, true);
 
         return true;
     }
@@ -159,5 +166,24 @@ public partial class Map : Node2D
         }
 
         ServerCreateEntity(player, entityName, position);
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+    public void PlaceConstructionRPC(string buildingName, Vector2 position)
+    {
+        if (!Multiplayer.IsServer())
+        {
+            GD.Print("PlaceConstructionRPC called on non-server node. Ignoring.");
+            return;
+        }
+
+        Player player = networkManager.GetPlayerViaPeerID(Multiplayer.GetRemoteSenderId());
+        if (player == null)
+        {
+            GD.Print("Player not found");
+            return;
+        }
+
+        ServerPlaceConstruction(player, buildingName, position);
     }
 }
