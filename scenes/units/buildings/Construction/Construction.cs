@@ -36,37 +36,47 @@ public partial class Construction : Unit
 
     private void SetInfo()
     {
-        if (label == null)
+        float radius;
+
+        if (label == null || panel == null || collisionShape == null)
         {
             return;
         }
 
         label.Text = BuildingName + "-Construction";
 
-        SetPanelSize();
-    }
-
-    private void SetPanelSize()
-    {
-
-        if (panel == null || collisionShape == null)
+        switch (BuildingName)
         {
-            return;
+            case "Townhall":
+                radius = Townhall.Radius;
+                constructionTime = Townhall.ConstructionTime;
+                break;
+            default:
+                radius = Unit.Radius;
+                constructionTime = Unit.ConstructionTime;
+                break;
         }
-        float radius = buildingName switch
-        {
-            "Townhall" => Townhall.Radius,
-            _ => Unit.Radius,
-        };
 
         panel.Size = new Vector2(radius * 2, radius * 2);
         panel.Position = new Vector2(-radius, -radius);
         collisionShape.Shape = new CircleShape2D { Radius = radius };
+
     }
 
     public override bool GetRepaired(float amount)
     {
-        GD.Print("Repairing " + Name + " by " + amount);
+        constructionProgress += amount;
+
+        if (constructionProgress >= constructionTime)
+        {
+            Player player = Map.GetPlayer(PlayerName);
+            if (player != null)
+            {
+                Map.ServerCreateEntity(player, BuildingName, Position);
+            }
+
+            QueueFree();
+        }
         return true;
     }
 }

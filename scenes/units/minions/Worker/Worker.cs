@@ -75,6 +75,12 @@ public partial class Worker : Unit
     {
         if (materialTarget != null && amountOfMaterialInBag < MaxMaterialsInBag)
         {
+            if (!IsInstanceValid(materialTarget))
+            {
+                ResetInputs();
+                return false;
+            }
+
             if (!bodiesInInteractRange.Contains(materialTarget))
             {
                 Velocity = Position.DirectionTo(materialTarget.Position) * Speed;
@@ -93,6 +99,12 @@ public partial class Worker : Unit
         }
         else if (storageTarget != null)
         {
+            if (!IsInstanceValid(storageTarget))
+            {
+                ResetInputs();
+                return false;
+            }
+
             if (!bodiesInInteractRange.Contains(storageTarget))
             {
                 Velocity = Position.DirectionTo(storageTarget.Position) * Speed;
@@ -118,6 +130,12 @@ public partial class Worker : Unit
     {
         if (repairTarget != null)
         {
+            if (!IsInstanceValid(repairTarget))
+            {
+                ResetInputs();
+                return false;
+            }
+
             if (!bodiesInInteractRange.Contains(repairTarget))
             {
                 Velocity = Position.DirectionTo(repairTarget.Position) * Speed;
@@ -176,6 +194,7 @@ public partial class Worker : Unit
 
     private void ResetInputs()
     {
+        targetPosition = Position;
         materialTarget = null;
         storageTarget = null;
         repairTarget = null;
@@ -205,6 +224,12 @@ public partial class Worker : Unit
             return;
         }
 
+        if (!IsInstanceValid(materialTarget))
+        {
+            ResetInputs();
+            return;
+        }
+
         if (!bodiesInInteractRange.Contains(materialTarget))
         {
             return;
@@ -231,6 +256,13 @@ public partial class Worker : Unit
     {
         if (repairTarget == null)
         {
+            ResetInputs();
+            return;
+        }
+
+        if (!IsInstanceValid(repairTarget))
+        {
+            ResetInputs();
             return;
         }
 
@@ -241,7 +273,8 @@ public partial class Worker : Unit
 
         if (!repairTarget.GetRepaired(RepairEfficiency))
         {
-            repairTarget = null;
+            ResetInputs();
+            return;
         }
     }
 }

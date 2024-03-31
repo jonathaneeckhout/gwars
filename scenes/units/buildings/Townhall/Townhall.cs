@@ -4,6 +4,7 @@ using System;
 public partial class Townhall : Unit
 {
     public new const float Radius = 32.0f;
+    public new const float ConstructionTime = 3.0f;
     public override bool IsRepairable { get; set; } = true;
     public override bool IsStorage { get; set; } = true;
 
