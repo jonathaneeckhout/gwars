@@ -1,4 +1,6 @@
 using Godot;
+using Godot.Collections;
+
 using System;
 
 public partial class Unit : CharacterBody2D
@@ -12,6 +14,8 @@ public partial class Unit : CharacterBody2D
     public Map Map { get; set; } = null;
     public virtual bool IsRepairable { get; set; } = false;
     public virtual bool IsStorage { get; set; } = false;
+    public virtual bool IsTrainingCenter { get; set; } = false;
+    public static readonly Dictionary<string, Dictionary> Units = new Dictionary<string, Dictionary>();
     protected Vector2 targetPosition = Vector2.Zero;
 
     protected Panel selectionPanel = null;
@@ -48,6 +52,11 @@ public partial class Unit : CharacterBody2D
     public virtual void RepairTarget(Unit target) { }
 
     public virtual bool GetRepaired(float amount)
+    {
+        return false;
+    }
+
+    public virtual bool TrainUnit(string unitType)
     {
         return false;
     }

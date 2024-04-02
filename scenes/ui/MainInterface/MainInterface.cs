@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public partial class MainInterface : Control
@@ -28,12 +29,41 @@ public partial class MainInterface : Control
     private Button buildingsButton = null;
     private Button debugButton = null;
     private Button townhallButton = null;
-
     private GridContainer buildingsContainer = null;
+    private VBoxContainer trainingContainer = null;
+    private GridContainer trainingUnits = null;
 
     private PackedScene buildingPreviewScene = GD.Load<PackedScene>("res://scenes/ui/previews/BuildingPreview/BuildingPreview.tscn");
 
     private BuildingPreview buildingPreview = null;
+
+    private UnitSelectionComponent unitSelectionComponent = null;
+
+    public UnitSelectionComponent UnitSelectionComponent
+    {
+        get
+        {
+            return unitSelectionComponent;
+        }
+        set
+        {
+            // You can add custom logic here
+            if (value != null)
+            {
+                unitSelectionComponent = value;
+
+                if (!Multiplayer.IsServer())
+                {
+                    unitSelectionComponent.UnitsSelected += OnUnitsSelected;
+                    unitSelectionComponent.UnitsDeselected += OnUnitsDeselected;
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(value), "UnitSelectionComponent cannot be null");
+            }
+        }
+    }
 
     public override void _Ready()
     {
@@ -50,6 +80,9 @@ public partial class MainInterface : Control
         townhallButton.Pressed += () => ShowBuildingPreview("Townhall");
 
         buildingsContainer = GetNode<GridContainer>("%BuildingsContainer");
+
+        trainingContainer = GetNode<VBoxContainer>("%TrainingsContainer");
+        trainingUnits = GetNode<GridContainer>("%TrainingUnits");
     }
 
     public override void _Input(InputEvent @event)
@@ -85,7 +118,8 @@ public partial class MainInterface : Control
 
     private void HideAllContainers()
     {
-        buildingsContainer.Visible = false;
+        buildingsContainer.Hide();
+        trainingContainer.Hide();
     }
 
     private void ShowBuildingPreview(string buildingName)
@@ -104,6 +138,29 @@ public partial class MainInterface : Control
         buildingPreview.BuildingName = buildingName;
     }
 
+    private void ClearAllTrainableUnits()
+    {
+        foreach (Node child in trainingUnits.GetChildren())
+        {
+            child.QueueFree();
+        }
+    }
+
+    private void LoadAllTrainableUnits(Unit unit)
+    {
+        ClearAllTrainableUnits();
+
+        if (unit is Townhall)
+        {
+            foreach (string unitType in Townhall.Units.Keys)
+            {
+                Button button = new Button();
+                button.Text = unitType;
+                trainingUnits.AddChild(button);
+            }
+        }
+    }
+
     private void OnMaterialChanged(uint gold, uint food)
     {
         goldValue.Text = gold.ToString();
@@ -115,5 +172,24 @@ public partial class MainInterface : Control
         HideAllContainers();
 
         buildingsContainer.Visible = true;
+    }
+
+    private void OnUnitsSelected(Array<Unit> units)
+    {
+        if (units.Count == 1)
+        {
+            Unit unit = units[0];
+            // Check if the unit is owned by the player and if it is a townhall class
+            if (unit.PlayerName == Player.Username && unit.IsTrainingCenter)
+            {
+                LoadAllTrainableUnits(unit);
+                trainingContainer.Visible = true;
+            }
+        }
+    }
+
+    private void OnUnitsDeselected(Array<Unit> units)
+    {
+        HideAllContainers();
     }
 }

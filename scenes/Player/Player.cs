@@ -82,6 +82,7 @@ public partial class Player : Node2D
             mainInterface.Player = this;
             mainInterface.Map = Map;
             mainInterface.MaterialComponent = materialComponent;
+            mainInterface.UnitSelectionComponent = unitSelectionComponent;
         }
     }
 
@@ -103,5 +104,21 @@ public partial class Player : Node2D
             default:
                 return false;
         }
+    }
+
+    public bool HasMaterials(uint gold, uint food)
+    {
+        return materialComponent.Gold >= gold && materialComponent.Food >= food;
+    }
+
+    public bool RemoveMaterials(uint gold, uint food)
+    {
+        if (HasMaterials(gold, food))
+        {
+            materialComponent.Gold -= gold;
+            materialComponent.Food -= food;
+            return true;
+        }
+        return false;
     }
 }
