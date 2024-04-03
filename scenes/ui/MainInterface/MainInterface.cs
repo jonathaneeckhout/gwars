@@ -34,7 +34,7 @@ public partial class MainInterface : Control
     private GridContainer trainingUnits = null;
 
     private PackedScene buildingPreviewScene = GD.Load<PackedScene>("res://scenes/ui/previews/BuildingPreview/BuildingPreview.tscn");
-
+    private PackedScene trainUnitButtonScene = GD.Load<PackedScene>("res://scenes/ui/MainInterface/TrainUnitButton/TrainUnitButton.tscn");
     private BuildingPreview buildingPreview = null;
 
     private UnitSelectionComponent unitSelectionComponent = null;
@@ -154,8 +154,11 @@ public partial class MainInterface : Control
         {
             foreach (string unitType in Townhall.Units.Keys)
             {
-                Button button = new Button();
+                TrainUnitButton button = (TrainUnitButton)trainUnitButtonScene.Instantiate();
                 button.Text = unitType;
+                button.GroupComponent = Player.GroupComponent;
+                button.TrainingCenter = unit;
+                button.UnitType = unitType;
                 trainingUnits.AddChild(button);
             }
         }

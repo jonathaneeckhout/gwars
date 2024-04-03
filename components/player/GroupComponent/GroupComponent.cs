@@ -209,4 +209,31 @@ public partial class GroupComponent : Node
         }
 
     }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+    public void TrainUnitGroupRPC(string trainingsCenter, string unitType)
+    {
+        if (!Multiplayer.IsServer())
+        {
+            return;
+        }
+
+        //TODO: check if player is logged in
+
+        Unit unit = Map.GetUnit(trainingsCenter);
+        if (unit == null)
+        {
+            GD.Print("Training center not found");
+            return;
+        }
+
+        //Check if unit is a training center
+        if (!unit.IsTrainingCenter)
+        {
+            GD.Print("Unit is not a training center");
+            return;
+        }
+
+        unit.TrainUnit(unitType);
+    }
 }

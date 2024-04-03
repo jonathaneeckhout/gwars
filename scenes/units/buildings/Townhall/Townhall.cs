@@ -12,7 +12,7 @@ public partial class Townhall : Unit
 
     public new static readonly Dictionary<string, Dictionary> Units = new Dictionary<string, Dictionary>
     {
-        { "Worker", new Dictionary { { "Gold", 0 }, {"food", 100}, { "Scene", GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn") } } }
+        { "Worker", new Dictionary { { "Gold", 0 }, {"Food", 100}, { "Scene", GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn") } } }
     };
 
     public override bool StoreMaterial(string materialType, uint amount)
@@ -31,8 +31,9 @@ public partial class Townhall : Unit
             {
                 if (player.RemoveMaterials((uint)Units[unitType]["Gold"], (uint)Units[unitType]["Food"]))
                 {
+                    Vector2 SpawnPosition = Position + new Vector2(0, 64);
                     // TODO: add unit to training queue
-                    Map.ServerCreateEntity(player, unitType, Position);
+                    Map.ServerCreateEntity(player, unitType, SpawnPosition);
                     return true;
                 }
             }

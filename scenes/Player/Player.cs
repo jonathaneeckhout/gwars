@@ -19,13 +19,13 @@ public partial class Player : Node2D
     [Export]
     public long PeerID { get; set; } = -1;
     public Map Map { get; set; } = null;
+    public GroupComponent GroupComponent { get; set; } = null;
     public bool AboveUI { get; set; } = false;
     private string username = "Player";
     private Camera2D playerCamera = null;
     private CanvasLayer ui = null;
     private UnitSelectionComponent unitSelectionComponent = null;
     private InputComponent inputComponent = null;
-    private GroupComponent groupComponent = null;
     private MaterialComponent materialComponent = null;
 
     private DebugMenu debugMenu = null;
@@ -41,8 +41,8 @@ public partial class Player : Node2D
 
         inputComponent = GetNode<InputComponent>("%InputComponent");
 
-        groupComponent = GetNode<GroupComponent>("%GroupComponent");
-        groupComponent.Map = Map;
+        GroupComponent = GetNode<GroupComponent>("%GroupComponent");
+        GroupComponent.Map = Map;
 
         materialComponent = GetNode<MaterialComponent>("%MaterialComponent");
 
@@ -66,10 +66,10 @@ public partial class Player : Node2D
         }
         else
         {
-            groupComponent.UnitSelectionComponent = unitSelectionComponent;
+            GroupComponent.UnitSelectionComponent = unitSelectionComponent;
 
             inputComponent.UnitSelectionComponent = unitSelectionComponent;
-            inputComponent.GroupComponent = groupComponent;
+            inputComponent.GroupComponent = GroupComponent;
             inputComponent.Map = Map;
             inputComponent.Player = this;
 

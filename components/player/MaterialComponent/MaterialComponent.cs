@@ -26,7 +26,7 @@ public partial class MaterialComponent : Node
             EmitSignal(SignalName.MaterialChanged, gold, food);
         }
     }
-    private uint gold = 0;
-    private uint food = 0;
+    private uint gold = 1000;
+    private uint food = 1000;
 
 }
