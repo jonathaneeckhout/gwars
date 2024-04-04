@@ -31,6 +31,7 @@ public partial class UnitSelectionComponent : Node2D
             dragging = false;
         }
     }
+    public UI UI { get; set; } = null;
     private Panel selectionPanel = null;
 
     private bool enabled = true;
@@ -54,6 +55,11 @@ public partial class UnitSelectionComponent : Node2D
 
     public override void _Input(InputEvent @event)
     {
+        if (UI != null && UI.AboveUI)
+        {
+            return;
+        }
+
         // Hide the settings menu if visible.
         if (Input.IsActionJustPressed("left_click"))
         {

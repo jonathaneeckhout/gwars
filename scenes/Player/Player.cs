@@ -20,10 +20,9 @@ public partial class Player : Node2D
     public long PeerID { get; set; } = -1;
     public Map Map { get; set; } = null;
     public GroupComponent GroupComponent { get; set; } = null;
-    public bool AboveUI { get; set; } = false;
     private string username = "Player";
     private Camera2D playerCamera = null;
-    private CanvasLayer ui = null;
+    private UI ui = null;
     private UnitSelectionComponent unitSelectionComponent = null;
     private InputComponent inputComponent = null;
     private MaterialComponent materialComponent = null;
@@ -35,9 +34,10 @@ public partial class Player : Node2D
     {
         playerCamera = GetNode<Camera2D>("%PlayerCamera");
 
-        ui = GetNode<CanvasLayer>("%UI");
+        ui = GetNode<UI>("%UI");
 
         unitSelectionComponent = GetNode<UnitSelectionComponent>("%UnitSelectionComponent");
+        unitSelectionComponent.UI = ui;
 
         inputComponent = GetNode<InputComponent>("%InputComponent");
 

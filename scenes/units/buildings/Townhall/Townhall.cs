@@ -58,7 +58,6 @@ public partial class Townhall : Unit
                         progressTimer.Start();
                     }
 
-                    // Map.ServerCreateEntity(player, unitType, SpawnPosition);
                     return true;
                 }
             }
