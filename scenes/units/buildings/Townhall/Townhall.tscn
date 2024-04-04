@@ -15,6 +15,12 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath(".:PlayerName")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+properties/2/path = NodePath(".:TrainingQueue")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:TrainingProgress")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="Townhall" type="CharacterBody2D"]
 script = ExtResource("1_oaqpr")
@@ -61,3 +67,11 @@ offset_top = -56.0
 offset_right = 36.0
 offset_bottom = -33.0
 text = "Townhall"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -32.0
+offset_top = 32.0
+offset_right = 32.0
+offset_bottom = 59.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
