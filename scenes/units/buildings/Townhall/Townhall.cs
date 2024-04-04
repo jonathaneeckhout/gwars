@@ -12,8 +12,25 @@ public partial class Townhall : Unit
 
     public new static readonly Dictionary<string, Dictionary> Units = new Dictionary<string, Dictionary>
     {
-        { "Worker", new Dictionary { { "Gold", 0 }, {"Food", 100}, { "Scene", GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn") } } }
+        { "Worker", new Dictionary { { "Gold", 0 }, {"Food", 100}, {"Time", 3.0}, { "Scene", GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn") } } }
     };
+    private Array<Dictionary> trainingQueue = new Array<Dictionary>();
+
+    private Timer progressTimer = null;
+
+    public override void _Ready()
+    {
+        base._Ready();
+
+        progressTimer = new Timer();
+        progressTimer.Name = "ProgressTimer";
+        progressTimer.OneShot = false;
+        progressTimer.WaitTime = 1.0f;
+        progressTimer.Autostart = false;
+        progressTimer.Timeout += OnProgressTimerTimeout;
+        AddChild(progressTimer);
+
+    }
 
     public override bool StoreMaterial(string materialType, uint amount)
     {
@@ -33,12 +50,42 @@ public partial class Townhall : Unit
                 {
                     Vector2 SpawnPosition = Position + new Vector2(0, 64);
                     // TODO: add unit to training queue
-                    Map.ServerCreateEntity(player, unitType, SpawnPosition);
+
+                    trainingQueue.Add(new Dictionary { { "UnitType", unitType }, { "Progress", 0.0 } });
+
+                    if (progressTimer.IsStopped())
+                    {
+                        progressTimer.Start();
+                    }
+
+                    // Map.ServerCreateEntity(player, unitType, SpawnPosition);
                     return true;
                 }
             }
         }
 
         return false;
+    }
+
+    private void OnProgressTimerTimeout()
+    {
+        if (trainingQueue.Count > 0)
+        {
+            trainingQueue[0]["Progress"] = (float)trainingQueue[0]["Progress"] + progressTimer.WaitTime;
+            if ((float)trainingQueue[0]["Progress"] >= (float)Units[(string)trainingQueue[0]["UnitType"]]["Time"])
+            {
+                Player player = Map.GetPlayer(PlayerName);
+                if (player != null)
+                {
+                    Map.ServerCreateEntity(player, (string)trainingQueue[0]["UnitType"], Position + new Vector2(0, 64));
+                }
+                trainingQueue.RemoveAt(0);
+            }
+        }
+
+        if (trainingQueue.Count == 0)
+        {
+            progressTimer.Stop();
+        }
     }
 }
