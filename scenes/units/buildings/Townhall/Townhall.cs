@@ -22,6 +22,12 @@ public partial class Townhall : Unit
 
     private ProgressBar progressBar = null;
 
+    public Townhall()
+    {
+        AddReplicationProperty(".:TrainingQueue", true, SceneReplicationConfig.ReplicationMode.OnChange);
+        AddReplicationProperty(".:TrainingProgress", true, SceneReplicationConfig.ReplicationMode.OnChange);
+    }
+
     public override void _Ready()
     {
         base._Ready();

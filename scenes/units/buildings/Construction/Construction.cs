@@ -25,8 +25,14 @@ public partial class Construction : Unit
     private float constructionTime = 0.0f;
     private float constructionProgress = 0.0f;
 
+    public Construction()
+    {
+        AddReplicationProperty(".:BuildingName", true, SceneReplicationConfig.ReplicationMode.Never);
+    }
+
     public override void _Ready()
     {
+        base._Ready();
         label = GetNode<Label>("Label");
         panel = GetNode<Panel>("Panel");
         collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
