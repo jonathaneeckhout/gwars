@@ -24,6 +24,9 @@ public partial class Townhall : Unit
 
     public Townhall()
     {
+        MaxHealth = 1000;
+        Health = MaxHealth;
+
         AddReplicationProperty(".:TrainingQueue", true, SceneReplicationConfig.ReplicationMode.OnChange);
         AddReplicationProperty(".:TrainingProgress", true, SceneReplicationConfig.ReplicationMode.OnChange);
     }

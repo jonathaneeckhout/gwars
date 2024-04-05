@@ -66,6 +66,17 @@ public partial class NetworkManager : Node
         return null;
     }
 
+    public bool ServerIsClientLoggedIn(long id)
+    {
+        var client = ServerGetClient(id);
+        if (client != null)
+        {
+            return client.IsLoggedIn;
+        }
+
+        return false;
+    }
+
     public Player GetPlayerViaPeerID(long id)
     {
         Client client = ServerGetClient(id);

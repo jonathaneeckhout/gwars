@@ -6,6 +6,10 @@ public partial class Map : Node2D
     private NetworkManager networkManager = null;
     public NetworkManager NetworkManager
     {
+        get
+        {
+            return networkManager;
+        }
         set
         {
             networkManager = value;

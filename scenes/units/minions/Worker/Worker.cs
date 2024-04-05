@@ -105,7 +105,6 @@ public partial class Worker : Unit
 
                 if (attackDelayTimer.IsStopped())
                 {
-                    GD.Print("Attacking");
                     attackTarget.Hurt(AttackPower);
                     attackDelayTimer.Start(AttackSpeed);
                 }

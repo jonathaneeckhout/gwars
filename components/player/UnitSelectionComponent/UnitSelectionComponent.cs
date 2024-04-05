@@ -31,6 +31,7 @@ public partial class UnitSelectionComponent : Node2D
             dragging = false;
         }
     }
+    public Player Player { get; set; } = null;
     public UI UI { get; set; } = null;
     private Panel selectionPanel = null;
 
@@ -110,7 +111,7 @@ public partial class UnitSelectionComponent : Node2D
         foreach (Dictionary res in selected)
         {
             Node node = res["collider"].As<Node>();
-            if (node is Unit unit)
+            if (node is Unit unit && unit.PlayerName == Player.Name)
             {
                 selectedUnits.Add(unit);
             }

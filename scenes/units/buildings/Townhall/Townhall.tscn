@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dt5vjpbpil4au"]
+[gd_scene load_steps=5 format=3 uid="uid://dt5vjpbpil4au"]
 
 [ext_resource type="Script" path="res://scenes/units/buildings/Townhall/Townhall.cs" id="1_oaqpr"]
 
@@ -7,6 +7,9 @@ radius = 32.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h57c1"]
 bg_color = Color(1, 1, 0, 0.470588)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focjp"]
+bg_color = Color(0.380392, 0.690196, 0.231373, 0.501961)
 
 [node name="Townhall" type="CharacterBody2D"]
 script = ExtResource("1_oaqpr")
@@ -55,6 +58,14 @@ offset_right = 35.5
 offset_bottom = -41.0
 grow_horizontal = 2
 text = "Townhall"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -32.0
+offset_top = -96.0
+offset_right = 32.0
+offset_bottom = -69.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_focjp")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -32.0

@@ -37,6 +37,7 @@ public partial class Player : Node2D
         ui = GetNode<UI>("%UI");
 
         unitSelectionComponent = GetNode<UnitSelectionComponent>("%UnitSelectionComponent");
+        unitSelectionComponent.Player = this;
         unitSelectionComponent.UI = ui;
 
         inputComponent = GetNode<InputComponent>("%InputComponent");

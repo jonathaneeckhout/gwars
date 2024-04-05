@@ -87,10 +87,24 @@ public partial class GroupComponent : Node
             return;
         }
 
+        int id = Multiplayer.GetRemoteSenderId();
+
+        if (!Map.NetworkManager.ServerIsClientLoggedIn(id))
+        {
+            return;
+        }
+
+        Player player = Map.NetworkManager.GetPlayerViaPeerID(id);
+
+        if (player == null)
+        {
+            return;
+        }
+
         foreach (string unitName in units)
         {
             Unit unit = Map.GetUnit(unitName);
-            if (unit != null)
+            if (unit != null && unit.PlayerName == player.Name)
             {
                 Members.Add(unit);
             }
@@ -106,6 +120,13 @@ public partial class GroupComponent : Node
             return;
         }
 
+        int id = Multiplayer.GetRemoteSenderId();
+
+        if (!Map.NetworkManager.ServerIsClientLoggedIn(id))
+        {
+            return;
+        }
+
         Members.Clear();
     }
 
@@ -117,8 +138,12 @@ public partial class GroupComponent : Node
             return;
         }
 
-        //TODO: check if player is logged in
+        int id = Multiplayer.GetRemoteSenderId();
 
+        if (!Map.NetworkManager.ServerIsClientLoggedIn(id))
+        {
+            return;
+        }
 
         foreach (Unit unit in Members)
         {
@@ -134,7 +159,12 @@ public partial class GroupComponent : Node
             return;
         }
 
-        //TODO: check if player is logged in
+        int id = Multiplayer.GetRemoteSenderId();
+
+        if (!Map.NetworkManager.ServerIsClientLoggedIn(id))
+        {
+            return;
+        }
 
         Material material = Map.GetMaterial(materialName);
         if (material == null)
@@ -164,7 +194,12 @@ public partial class GroupComponent : Node
             return;
         }
 
-        //TODO: check if player is logged in
+        int id = Multiplayer.GetRemoteSenderId();
+
+        if (!Map.NetworkManager.ServerIsClientLoggedIn(id))
+        {
+            return;
+        }
 
         Unit target = Map.GetUnit(targetName);
         if (target == null)
@@ -187,7 +222,12 @@ public partial class GroupComponent : Node
             return;
         }
 
-        //TODO: check if player is logged in
+        int id = Multiplayer.GetRemoteSenderId();
+
+        if (!Map.NetworkManager.ServerIsClientLoggedIn(id))
+        {
+            return;
+        }
 
         Unit target = Map.GetUnit(targetName);
         if (target == null)
@@ -218,7 +258,12 @@ public partial class GroupComponent : Node
             return;
         }
 
-        //TODO: check if player is logged in
+        int id = Multiplayer.GetRemoteSenderId();
+
+        if (!Map.NetworkManager.ServerIsClientLoggedIn(id))
+        {
+            return;
+        }
 
         Unit unit = Map.GetUnit(trainingsCenter);
         if (unit == null)
