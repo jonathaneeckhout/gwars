@@ -34,7 +34,7 @@ public partial class GroupComponent : Node
         }
     }
     [Export]
-    public Array<Unit> Members { get; set; } = new Array<Unit>();
+    public Array<string> Members { get; set; } = new Array<string>();
 
     public Vector2 GetAveragePosition()
     {
@@ -44,34 +44,43 @@ public partial class GroupComponent : Node
             return averagePosition;
         }
 
-        foreach (Unit unit in Members)
+        foreach (string unitName in Members)
         {
-            averagePosition += unit.Position;
+            Unit unit = Map.GetUnit(unitName);
+            if (unit != null)
+            {
+                averagePosition += unit.Position;
+            }
         }
 
         return averagePosition / Members.Count;
     }
 
-    private void OnUnitsSelected(Array<Unit> units)
+    private void OnUnitsSelected(Array<string> units)
     {
-        Array<string> unitNames = new Array<string>();
-        foreach (Unit unit in units)
+        foreach (string unitName in units)
         {
-            unitNames.Add(unit.Name);
-            unit.SetSelected(true);
+            Unit unit = Map.GetUnit(unitName);
+            if (unit != null)
+            {
+                unit.SetSelected(true);
+            }
         }
 
         Members = units.Duplicate();
 
-        RpcId(1, MethodName.SelectUnitsRPC, unitNames);
-
+        RpcId(1, MethodName.SelectUnitsRPC, units);
     }
 
-    private void OnUnitsDeselected(Array<Unit> units)
+    private void OnUnitsDeselected(Array<string> units)
     {
-        foreach (Unit unit in units)
+        foreach (string unitName in units)
         {
-            unit.SetSelected(false);
+            Unit unit = Map.GetUnit(unitName);
+            if (unit != null)
+            {
+                unit.SetSelected(false);
+            }
         }
 
         Members.Clear();
@@ -106,7 +115,7 @@ public partial class GroupComponent : Node
             Unit unit = Map.GetUnit(unitName);
             if (unit != null && unit.PlayerName == player.Name)
             {
-                Members.Add(unit);
+                Members.Add(unitName);
             }
         }
     }
@@ -145,9 +154,13 @@ public partial class GroupComponent : Node
             return;
         }
 
-        foreach (Unit unit in Members)
+        foreach (string unitName in Members)
         {
-            unit.MoveTo(position);
+            Unit unit = Map.GetUnit(unitName);
+            if (unit != null)
+            {
+                unit.MoveTo(position);
+            }
         }
     }
 
@@ -180,9 +193,13 @@ public partial class GroupComponent : Node
             return;
         }
 
-        foreach (Unit unit in Members)
+        foreach (string unitName in Members)
         {
-            unit.GatherMaterial(material, storage);
+            Unit unit = Map.GetUnit(unitName);
+            if (unit != null)
+            {
+                unit.GatherMaterial(material, storage);
+            }
         }
     }
 
@@ -208,9 +225,13 @@ public partial class GroupComponent : Node
             return;
         }
 
-        foreach (Unit unit in Members)
+        foreach (string unitName in Members)
         {
-            unit.AttackUnit(target);
+            Unit unit = Map.GetUnit(unitName);
+            if (unit != null)
+            {
+                unit.AttackUnit(target);
+            }
         }
     }
 
@@ -243,9 +264,13 @@ public partial class GroupComponent : Node
             return;
         }
 
-        foreach (Unit unit in Members)
+        foreach (string unitName in Members)
         {
-            unit.RepairTarget(target);
+            Unit unit = Map.GetUnit(unitName);
+            if (unit != null)
+            {
+                unit.RepairTarget(target);
+            }
         }
 
     }

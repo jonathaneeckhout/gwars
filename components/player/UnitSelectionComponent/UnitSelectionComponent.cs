@@ -5,13 +5,13 @@ using System;
 public partial class UnitSelectionComponent : Node2D
 {
     [Signal]
-    public delegate void UnitsSelectedEventHandler(Array<Unit> units);
+    public delegate void UnitsSelectedEventHandler(Array<string> units);
 
     [Signal]
-    public delegate void UnitsDeselectedEventHandler(Array<Unit> units);
+    public delegate void UnitsDeselectedEventHandler(Array<string> units);
 
     [Export]
-    public Array<Unit> selectedUnits = new();
+    public Array<string> selectedUnits = new();
 
     [Export]
     public bool Enabled
@@ -113,7 +113,7 @@ public partial class UnitSelectionComponent : Node2D
             Node node = res["collider"].As<Node>();
             if (node is Unit unit && unit.PlayerName == Player.Name)
             {
-                selectedUnits.Add(unit);
+                selectedUnits.Add(unit.Name);
             }
         }
 

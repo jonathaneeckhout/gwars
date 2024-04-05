@@ -177,13 +177,13 @@ public partial class MainInterface : Control
         buildingsContainer.Visible = true;
     }
 
-    private void OnUnitsSelected(Array<Unit> units)
+    private void OnUnitsSelected(Array<string> units)
     {
         if (units.Count == 1)
         {
-            Unit unit = units[0];
+            Unit unit = Map.GetUnit(units[0]);
             // Check if the unit is owned by the player and if it is a townhall class
-            if (unit.PlayerName == Player.Username && unit.IsTrainingCenter)
+            if (unit != null && unit.PlayerName == Player.Username && unit.IsTrainingCenter)
             {
                 LoadAllTrainableUnits(unit);
                 trainingContainer.Visible = true;
@@ -191,7 +191,7 @@ public partial class MainInterface : Control
         }
     }
 
-    private void OnUnitsDeselected(Array<Unit> units)
+    private void OnUnitsDeselected(Array<string> units)
     {
         HideAllContainers();
     }
