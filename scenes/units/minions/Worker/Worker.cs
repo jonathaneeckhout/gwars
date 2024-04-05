@@ -11,9 +11,11 @@ public partial class Worker : Unit
     public float RepairSpeed = 1.0f;
     public uint RepairEfficiency = 1;
     private Area2D interactArea = null;
+    private Timer attackDelayTimer = null;
     private Timer gatherTimer = null;
     private Timer repairTimer = null;
     private Material materialTarget = null;
+    private Unit attackTarget = null;
     private Unit storageTarget = null;
     private Unit repairTarget = null;
 
@@ -32,6 +34,15 @@ public partial class Worker : Unit
         interactArea = GetNode<Area2D>("%InteractArea");
         interactArea.BodyEntered += OnInteractAreaBodyEntered;
         interactArea.BodyExited += OnInteractAreaBodyExited;
+
+        attackDelayTimer = new Timer
+        {
+            Name = "AttackDelayTimer",
+            OneShot = true,
+            WaitTime = AttackSpeed,
+            Autostart = false
+        };
+        AddChild(attackDelayTimer);
 
         gatherTimer = new Timer
         {
@@ -57,18 +68,53 @@ public partial class Worker : Unit
 
     public override void _PhysicsProcess(double delta)
     {
-        if (!HandleGathering())
+        if (!HandleAttacking())
         {
-            if (!HandleRepairing())
+            if (!HandleGathering())
             {
-                if (!HandleMoveTo())
+                if (!HandleRepairing())
                 {
-                    Velocity = Vector2.Zero;
+                    if (!HandleMoveTo())
+                    {
+                        Velocity = Vector2.Zero;
+                    }
                 }
             }
         }
 
         MoveAndSlide();
+    }
+
+    private bool HandleAttacking()
+    {
+        if (attackTarget != null)
+        {
+            if (!IsInstanceValid(attackTarget))
+            {
+                ResetInputs();
+                return false;
+            }
+
+            if (!bodiesInInteractRange.Contains(attackTarget))
+            {
+                Velocity = Position.DirectionTo(attackTarget.Position) * Speed;
+            }
+            else
+            {
+                Velocity = Vector2.Zero;
+
+                if (attackDelayTimer.IsStopped())
+                {
+                    GD.Print("Attacking");
+                    attackTarget.Hurt(AttackPower);
+                    attackDelayTimer.Start(AttackSpeed);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     private bool HandleGathering()
@@ -174,6 +220,14 @@ public partial class Worker : Unit
         targetPosition = position;
     }
 
+    public override void AttackUnit(Unit target)
+    {
+        ResetInputs();
+
+        targetPosition = target.Position;
+        attackTarget = target;
+    }
+
     public override void GatherMaterial(Material material, Unit Storage)
     {
         ResetInputs();
@@ -195,6 +249,7 @@ public partial class Worker : Unit
     private void ResetInputs()
     {
         targetPosition = Position;
+        attackTarget = null;
         materialTarget = null;
         storageTarget = null;
         repairTarget = null;
@@ -216,7 +271,6 @@ public partial class Worker : Unit
             bodiesInInteractRange.Remove(body);
         }
     }
-
     private void OnGatherTimerTimeout()
     {
         if (materialTarget == null)

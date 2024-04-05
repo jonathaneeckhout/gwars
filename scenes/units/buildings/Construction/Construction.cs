@@ -19,7 +19,6 @@ public partial class Construction : Unit
     }
     public override bool IsRepairable { get; set; } = true;
     private string buildingName = "";
-    private Label label = null;
     private Panel panel = null;
     private CollisionShape2D collisionShape = null;
     private float constructionTime = 0.0f;
@@ -33,7 +32,6 @@ public partial class Construction : Unit
     public override void _Ready()
     {
         base._Ready();
-        label = GetNode<Label>("Label");
         panel = GetNode<Panel>("Panel");
         collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
 
@@ -49,7 +47,7 @@ public partial class Construction : Unit
             return;
         }
 
-        label.Text = BuildingName + "-Construction";
+        label.Text = BuildingName + "-Construction: " + PlayerName;
 
         switch (BuildingName)
         {

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://lr4mx43gha1i"]
+[gd_scene load_steps=6 format=3 uid="uid://lr4mx43gha1i"]
 
 [ext_resource type="Script" path="res://scenes/units/minions/Worker/Worker.cs" id="1_if4td"]
 
@@ -7,6 +7,9 @@ radius = 16.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ff7l7"]
 bg_color = Color(1, 1, 0, 0.470588)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rbc1v"]
+bg_color = Color(0.380392, 0.690196, 0.231373, 0.501961)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vmptl"]
 radius = 64.0
@@ -48,6 +51,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -58,6 +62,14 @@ offset_bottom = -17.0
 grow_horizontal = 2
 text = "Worker"
 horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -32.0
+offset_top = -64.0
+offset_right = 32.0
+offset_bottom = -37.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_rbc1v")
 
 [node name="InteractArea" type="Area2D" parent="."]
 unique_name_in_owner = true

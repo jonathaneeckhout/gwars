@@ -175,7 +175,7 @@ public partial class GroupComponent : Node
 
         foreach (Unit unit in Members)
         {
-            // unit.Attack(target);
+            unit.AttackUnit(target);
         }
     }
 

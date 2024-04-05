@@ -45,10 +45,15 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="."]
-offset_left = -36.0
-offset_top = -56.0
-offset_right = 36.0
-offset_bottom = -33.0
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -35.5
+offset_top = -64.0
+offset_right = 35.5
+offset_bottom = -41.0
+grow_horizontal = 2
 text = "Townhall"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
