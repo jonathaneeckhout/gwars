@@ -6,6 +6,7 @@ public partial class Townhall : Unit
 {
     public new const float Radius = 32.0f;
     public new const float ConstructionTime = 3.0f;
+    public new const uint DefaultMaxHealth = 1000;
     public override bool IsRepairable { get; set; } = true;
     public override bool IsStorage { get; set; } = true;
     public override bool IsTrainingCenter { get; set; } = true;
@@ -24,7 +25,7 @@ public partial class Townhall : Unit
 
     public Townhall()
     {
-        MaxHealth = 1000;
+        MaxHealth = DefaultMaxHealth;
         Health = MaxHealth;
 
         AddReplicationProperty(".:TrainingQueue", true, SceneReplicationConfig.ReplicationMode.OnChange);

@@ -7,6 +7,8 @@ public partial class Unit : CharacterBody2D
     public const float Radius = 16.0f;
     public const float ConstructionTime = 0.0f;
 
+    public const uint DefaultMaxHealth = 100;
+
     [Export]
     public string PlayerName { get; set; } = "";
     [Export]
@@ -120,7 +122,7 @@ public partial class Unit : CharacterBody2D
 
     public virtual void RepairTarget(Unit target) { }
 
-    public virtual bool GetRepaired(float amount)
+    public virtual bool GetRepaired(uint amount)
     {
         return false;
     }

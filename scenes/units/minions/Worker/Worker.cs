@@ -9,7 +9,7 @@ public partial class Worker : Unit
     public float GatherSpeed = 1.0f;
     public uint GatherEfficiency = 1;
     public float RepairSpeed = 1.0f;
-    public uint RepairEfficiency = 1;
+    public uint RepairEfficiency = 10;
     private Area2D interactArea = null;
     private Timer attackDelayTimer = null;
     private Timer gatherTimer = null;

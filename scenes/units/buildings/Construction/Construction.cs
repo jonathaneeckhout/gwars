@@ -21,11 +21,10 @@ public partial class Construction : Unit
     private string buildingName = "";
     private Panel panel = null;
     private CollisionShape2D collisionShape = null;
-    private float constructionTime = 0.0f;
-    private float constructionProgress = 0.0f;
 
     public Construction()
     {
+        Health = 1;
         AddReplicationProperty(".:BuildingName", true, SceneReplicationConfig.ReplicationMode.Never);
     }
 
@@ -53,11 +52,11 @@ public partial class Construction : Unit
         {
             case "Townhall":
                 radius = Townhall.Radius;
-                constructionTime = Townhall.ConstructionTime;
+                MaxHealth = Townhall.DefaultMaxHealth;
                 break;
             default:
-                radius = Unit.Radius;
-                constructionTime = Unit.ConstructionTime;
+                radius = Radius;
+                MaxHealth = DefaultMaxHealth;
                 break;
         }
 
@@ -67,11 +66,11 @@ public partial class Construction : Unit
 
     }
 
-    public override bool GetRepaired(float amount)
+    public override bool GetRepaired(uint amount)
     {
-        constructionProgress += amount;
+        Health += amount;
 
-        if (constructionProgress >= constructionTime)
+        if (Health >= MaxHealth)
         {
             Player player = Map.GetPlayer(PlayerName);
             if (player != null)
