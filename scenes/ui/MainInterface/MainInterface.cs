@@ -26,6 +26,7 @@ public partial class MainInterface : Control
     private MaterialComponent materialComponent = null;
     private Label goldValue = null;
     private Label foodValue = null;
+    private Label priceLabel = null;
     private Button buildingsButton = null;
     private Button debugButton = null;
     private Button townhallButton = null;
@@ -69,6 +70,7 @@ public partial class MainInterface : Control
     {
         goldValue = GetNode<Label>("%GoldValue");
         foodValue = GetNode<Label>("%FoodValue");
+        priceLabel = GetNode<Label>("%PriceLabel");
 
         buildingsButton = GetNode<Button>("%BuildingsButton");
         buildingsButton.Pressed += OnBuildingsButtonPressed;
@@ -78,6 +80,8 @@ public partial class MainInterface : Control
 
         townhallButton = GetNode<Button>("%TownhallButton");
         townhallButton.Pressed += () => ShowBuildingPreview("Townhall");
+        townhallButton.MouseEntered += () => ShowBuildingPrice("Townhall");
+        townhallButton.MouseExited += () => priceLabel.Hide();
 
         buildingsContainer = GetNode<GridContainer>("%BuildingsContainer");
 
@@ -136,6 +140,20 @@ public partial class MainInterface : Control
         Map.AddChild(buildingPreview);
         // This is needed to be done after the add to make sure that the panel is fetched in the ready call
         buildingPreview.BuildingName = buildingName;
+    }
+
+    private void ShowBuildingPrice(string buildingName)
+    {
+        priceLabel.Show();
+        switch (buildingName)
+        {
+            case "Townhall":
+                priceLabel.Text = "Gold: " + Townhall.Price["Gold"] + " Food: " + Townhall.Price["Food"];
+                break;
+            default:
+                priceLabel.Hide();
+                break;
+        }
     }
 
     private void ClearAllTrainableUnits()

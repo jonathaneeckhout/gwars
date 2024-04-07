@@ -10,9 +10,18 @@ public partial class Townhall : Unit
     public override bool IsRepairable { get; set; } = true;
     public override bool IsStorage { get; set; } = true;
     public override bool IsTrainingCenter { get; set; } = true;
+    public new static readonly Dictionary<string, uint> Price = new Dictionary<string, uint>
+    {
+        { "Gold", 500 },
+        { "Food", 400 }
+    };
     public new static readonly Dictionary<string, Dictionary> Units = new Dictionary<string, Dictionary>
     {
-        { "Worker", new Dictionary { { "Gold", 0 }, {"Food", 100}, {"Time", 10.0}, { "Scene", GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn") } } }
+        { "Worker", new Dictionary {
+            { "Gold", 0 },
+            {"Food", 100},
+            {"Time", 10.0},
+            { "Scene", GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn") } } }
     };
     [Export]
     public Array<string> TrainingQueue = new Array<string>();

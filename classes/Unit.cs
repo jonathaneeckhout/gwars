@@ -33,6 +33,10 @@ public partial class Unit : CharacterBody2D
     public virtual bool IsRepairable { get; set; } = false;
     public virtual bool IsStorage { get; set; } = false;
     public virtual bool IsTrainingCenter { get; set; } = false;
+    public static readonly Dictionary<string, uint> Price = new Dictionary<string, uint> {
+        {"Gold", 0},
+        {"Food", 0}
+    };
     public static readonly Dictionary<string, Dictionary> Units = new Dictionary<string, Dictionary>();
     protected MultiplayerSynchronizer synchronizer = null;
     protected SceneReplicationConfig sceneReplicationConfig = null;

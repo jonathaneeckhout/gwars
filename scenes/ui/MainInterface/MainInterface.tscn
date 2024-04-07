@@ -107,3 +107,13 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 columns = 2
+
+[node name="PriceLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 200.0
+offset_top = 568.0
+offset_right = 456.0
+offset_bottom = 600.0
+text = "(Gold:0,  Food:0)"

@@ -188,6 +188,20 @@ public partial class Map : Node2D
             return;
         }
 
+        switch (buildingName)
+        {
+            case "Townhall":
+                if (!player.RemoveMaterials(Townhall.Price["Gold"], Townhall.Price["Food"]))
+                {
+                    GD.Print("Not enough materials to place townhall");
+                    return;
+                }
+                break;
+            default:
+                GD.Print("Unknown building name: " + buildingName);
+                return;
+        }
+
         ServerPlaceConstruction(player, buildingName, position);
     }
 }
