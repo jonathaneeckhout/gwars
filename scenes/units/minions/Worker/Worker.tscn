@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://lr4mx43gha1i"]
+[gd_scene load_steps=7 format=3 uid="uid://lr4mx43gha1i"]
 
 [ext_resource type="Script" path="res://scenes/units/minions/Worker/Worker.cs" id="1_if4td"]
+[ext_resource type="Texture2D" uid="uid://cc2ihdbgl7pfh" path="res://assets/tilesets/medievalRTS_vector.svg" id="2_7kg22"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6yal7"]
 radius = 16.0
@@ -38,6 +39,7 @@ size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_ff7l7")
 
 [node name="Panel" type="Panel" parent="."]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -76,3 +78,9 @@ unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
 shape = SubResource("CircleShape2D_vmptl")
+
+[node name="MedievalRtsVector" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_7kg22")
+region_enabled = true
+region_rect = Rect2(1200, 336, 32, 32)

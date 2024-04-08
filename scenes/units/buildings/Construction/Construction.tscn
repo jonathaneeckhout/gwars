@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dctp6qfd4ghuw"]
+[gd_scene load_steps=5 format=3 uid="uid://dctp6qfd4ghuw"]
 
 [ext_resource type="Script" path="res://scenes/units/buildings/Construction/Construction.cs" id="1_0k35u"]
+[ext_resource type="Texture2D" uid="uid://du32y6vsixcth" path="res://assets/tilesets/blockPack_vector.svg" id="2_d35x6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hrad6"]
 radius = 16.0
@@ -15,6 +16,7 @@ script = ExtResource("1_0k35u")
 shape = SubResource("CircleShape2D_hrad6")
 
 [node name="Panel" type="Panel" parent="."]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -49,3 +51,9 @@ offset_top = -96.0
 offset_right = 32.0
 offset_bottom = -69.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_5p1sw")
+
+[node name="BlockPackVector" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_d35x6")
+region_enabled = true
+region_rect = Rect2(128, 200, 64, 72)
