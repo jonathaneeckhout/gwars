@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmejf14lmqu08"]
+
+[ext_resource type="Script" path="res://components/player/CameraMovementComponent/CameraMovementComponent.cs" id="1_e0m31"]
+
+[node name="CameraMovementComponent" type="Node"]
+script = ExtResource("1_e0m31")

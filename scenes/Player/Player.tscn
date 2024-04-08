@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://suxy2alwikor"]
+[gd_scene load_steps=11 format=3 uid="uid://suxy2alwikor"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.cs" id="1_bc5h1"]
 [ext_resource type="PackedScene" uid="uid://bg8a54fpg8wxo" path="res://components/player/UnitSelectionComponent/UnitSelectionComponent.tscn" id="2_xg6f7"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dx5jqbib7jdkm" path="res://components/player/GroupComponent/GroupComponent.tscn" id="4_v0ny3"]
 [ext_resource type="PackedScene" uid="uid://dlkil1mpmm54r" path="res://scenes/ui/DebugMenu/DebugMenu.tscn" id="4_xwlqp"]
 [ext_resource type="PackedScene" uid="uid://b1rg4a62xm54p" path="res://components/player/MaterialComponent/MaterialComponent.tscn" id="5_8qvwq"]
+[ext_resource type="PackedScene" uid="uid://cmejf14lmqu08" path="res://components/player/CameraMovementComponent/CameraMovementComponent.tscn" id="6_cpigp"]
 [ext_resource type="Script" path="res://scenes/Player/UI.cs" id="6_xs7vm"]
 [ext_resource type="PackedScene" uid="uid://crquf4hlpvyt4" path="res://scenes/ui/MainInterface/MainInterface.tscn" id="8_2uwy2"]
 
@@ -44,6 +45,8 @@ unique_name_in_owner = true
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 unique_name_in_owner = true
+
+[node name="CameraMovementComponent" parent="PlayerCamera" instance=ExtResource("6_cpigp")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
