@@ -13,6 +13,7 @@ public partial class Material : StaticBody2D
 
         synchronizer = new MultiplayerSynchronizer();
         synchronizer.Name = "Synchronizer";
+        synchronizer.ReplicationInterval = 0.1f;
         synchronizer.DeltaInterval = 0.1f;
         synchronizer.ReplicationConfig = sceneReplicationConfig;
         AddChild(synchronizer);
