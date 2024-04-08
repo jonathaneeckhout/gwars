@@ -4,7 +4,7 @@ using System;
 
 public partial class Worker : Unit
 {
-    public float Speed = 300.0f;
+    public float Speed = 150.0f;
     public uint MaxMaterialsInBag { get; set; } = 5;
     public float GatherSpeed = 1.0f;
     public uint GatherEfficiency = 1;

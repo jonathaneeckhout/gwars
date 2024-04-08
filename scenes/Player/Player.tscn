@@ -45,9 +45,13 @@ unique_name_in_owner = true
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 unique_name_in_owner = true
-anchor_mode = 0
 
 [node name="CameraMovementComponent" parent="PlayerCamera" instance=ExtResource("6_cpigp")]
+
+[node name="PlayerCamera2" type="Camera2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CameraMovementComponent" parent="PlayerCamera2" instance=ExtResource("6_cpigp")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
