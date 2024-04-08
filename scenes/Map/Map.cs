@@ -169,6 +169,8 @@ public partial class Map : Node2D
             return;
         }
 
+        position = SnapToGrid(position);
+
         ServerCreateEntity(player, entityName, position);
     }
 
@@ -202,6 +204,13 @@ public partial class Map : Node2D
                 return;
         }
 
+        position = SnapToGrid(position);
+
         ServerPlaceConstruction(player, buildingName, position);
+    }
+
+    static public Vector2 SnapToGrid(Vector2 position)
+    {
+        return new Vector2((int)position.X / 64 * 64 + 32, (int)position.Y / 64 * 64 + 32);
     }
 }

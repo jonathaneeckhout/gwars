@@ -37,7 +37,7 @@ public partial class BuildingPreview : Area2D
     {
         if (Visible)
         {
-            Position = GetGlobalMousePosition();
+            Position = Map.SnapToGrid(GetGlobalMousePosition());
         }
     }
 
