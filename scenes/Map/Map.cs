@@ -70,8 +70,10 @@ public partial class Map : Node2D
         AStarComponent.CreatePathfindingPoints();
     }
 
-    public void ServerCreateEntity(Player player, string entityName, Vector2 position)
+    public void ServerCreateEntity(Player player, string entityName, Vector2 position, bool regenPathfinding = true)
     {
+        bool triggerRegenPathfinding = false;
+
         switch (entityName)
         {
             case "Worker":
@@ -85,22 +87,30 @@ public partial class Map : Node2D
                 Townhall townhall = (Townhall)townhallScene.Instantiate();
                 townhall.PlayerName = player.Name;
                 townhall.Map = this;
-                townhall.Position = position;
+                townhall.Position = SnapToGrid(position);
                 units.AddChild(townhall, true);
+                triggerRegenPathfinding = true;
                 break;
             case "Tree":
                 Tree tree = (Tree)treeScene.Instantiate();
-                tree.Position = position;
+                tree.Position = SnapToGrid(position);
                 materials.AddChild(tree, true);
+                triggerRegenPathfinding = true;
                 break;
             case "Berries":
                 Berries berries = (Berries)berriesScene.Instantiate();
-                berries.Position = position;
+                berries.Position = SnapToGrid(position);
                 materials.AddChild(berries, true);
+                triggerRegenPathfinding = true;
                 break;
             default:
                 GD.Print("Unknown unit name: " + entityName);
                 break;
+        }
+
+        if (regenPathfinding && triggerRegenPathfinding)
+        {
+            AStarComponent.CreatePathfindingPoints();
         }
 
     }
@@ -141,19 +151,13 @@ public partial class Map : Node2D
         for (uint i = 0; i < amountOfTrees; i++)
         {
             Vector2 position = new Vector2(startPos.X * TileSize + (float)GD.RandRange(0, width) * TileSize, startPos.Y * TileSize + (float)GD.RandRange(0, height) * TileSize);
-            position = SnapToGrid(position);
-            Tree tree = (Tree)treeScene.Instantiate();
-            tree.Position = position;
-            materials.AddChild(tree, true);
+            ServerCreateEntity(null, "Tree", position, false);
         }
 
         for (uint i = 0; i < amountOfBerries; i++)
         {
             Vector2 position = new Vector2(startPos.X * TileSize + (float)GD.RandRange(0, width) * TileSize, startPos.Y * TileSize + (float)GD.RandRange(0, height) * TileSize);
-            position = SnapToGrid(position);
-            Berries berries = (Berries)berriesScene.Instantiate();
-            berries.Position = position;
-            materials.AddChild(berries, true);
+            ServerCreateEntity(null, "Berries", position, false);
         }
     }
 
