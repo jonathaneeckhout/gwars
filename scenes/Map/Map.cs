@@ -3,6 +3,7 @@ using System;
 
 public partial class Map : Node2D
 {
+    public const uint TileSize = 64;
     private NetworkManager networkManager = null;
     public NetworkManager NetworkManager
     {
@@ -57,6 +58,11 @@ public partial class Map : Node2D
     public Material GetMaterial(string name)
     {
         return materials.GetNodeOrNull<Material>(name);
+    }
+
+    public void ServerStart()
+    {
+        ServerGenerateTerrain(new Vector2(-32, -32), 64, 64, 100, 50);
     }
 
     public void ServerCreateEntity(Player player, string entityName, Vector2 position)
@@ -124,6 +130,26 @@ public partial class Map : Node2D
         units.AddChild(construction, true);
 
         return true;
+    }
+    private void ServerGenerateTerrain(Vector2 startPos, uint width, uint height, uint amountOfTrees = 100, uint amountOfBerries = 50)
+    {
+        for (uint i = 0; i < amountOfTrees; i++)
+        {
+            Vector2 position = new Vector2(startPos.X * TileSize + (float)GD.RandRange(0, width) * TileSize, startPos.Y * TileSize + (float)GD.RandRange(0, height) * TileSize);
+            position = SnapToGrid(position);
+            Tree tree = (Tree)treeScene.Instantiate();
+            tree.Position = position;
+            materials.AddChild(tree, true);
+        }
+
+        for (uint i = 0; i < amountOfBerries; i++)
+        {
+            Vector2 position = new Vector2(startPos.X * TileSize + (float)GD.RandRange(0, width) * TileSize, startPos.Y * TileSize + (float)GD.RandRange(0, height) * TileSize);
+            position = SnapToGrid(position);
+            Berries berries = (Berries)berriesScene.Instantiate();
+            berries.Position = position;
+            materials.AddChild(berries, true);
+        }
     }
 
     private void OnServerClientLoggedIn(Client client)
@@ -211,6 +237,6 @@ public partial class Map : Node2D
 
     static public Vector2 SnapToGrid(Vector2 position)
     {
-        return new Vector2((int)position.X / 64 * 64 + 32, (int)position.Y / 64 * 64 + 32);
+        return new Vector2((int)position.X / TileSize * TileSize + TileSize / 2, (int)position.Y / TileSize * TileSize + TileSize / 2);
     }
 }

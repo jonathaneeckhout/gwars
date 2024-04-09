@@ -73,6 +73,8 @@ public partial class Main : Node2D
         networkManager.StartServer(server_port);
 
         map.NetworkManager = networkManager;
+
+        map.ServerStart();
     }
 
     private void StartClient()
