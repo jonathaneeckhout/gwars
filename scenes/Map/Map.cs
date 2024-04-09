@@ -28,6 +28,7 @@ public partial class Map : Node2D
     private Node2D units = null;
     private Node2D players = null;
     private Node2D materials = null;
+    public AStarComponent AStarComponent = null;
     private PackedScene playerScene = GD.Load<PackedScene>("res://scenes/Player/Player.tscn");
     private PackedScene workerScene = GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn");
     private PackedScene townhallScene = GD.Load<PackedScene>("res://scenes/units/buildings/Townhall/Townhall.tscn");
@@ -40,6 +41,8 @@ public partial class Map : Node2D
         units = GetNode<Node2D>("%Units");
         players = GetNode<Node2D>("%Players");
         materials = GetNode<Node2D>("%Materials");
+
+        AStarComponent = GetNode<AStarComponent>("%AStarComponent");
 
         units.ChildEnteredTree += OnUnitsChildEnteredTree;
         players.ChildEnteredTree += OnPlayersChildEnteredTree;
@@ -63,6 +66,8 @@ public partial class Map : Node2D
     public void ServerStart()
     {
         ServerGenerateTerrain(new Vector2(-32, -32), 64, 64, 100, 50);
+        AStarComponent.NavigationMap = GetNode<TileMap>("%NavigationTileMap");
+        AStarComponent.CreatePathfindingPoints();
     }
 
     public void ServerCreateEntity(Player player, string entityName, Vector2 position)

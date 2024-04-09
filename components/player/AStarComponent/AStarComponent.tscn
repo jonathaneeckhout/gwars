@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cecgwre7efm3h"]
+
+[ext_resource type="Script" path="res://components/player/AStarComponent/AStarComponent.cs" id="1_tedjd"]
+
+[node name="AStarComponent" type="Node"]
+script = ExtResource("1_tedjd")

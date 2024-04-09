@@ -19,6 +19,7 @@ public partial class Worker : Unit
     private Unit storageTarget = null;
     private Unit repairTarget = null;
 
+    private AStarPath navPath = null;
     private Array<Node> bodiesInInteractRange = new Array<Node>();
 
     [Export]
@@ -203,18 +204,22 @@ public partial class Worker : Unit
 
     private bool HandleMoveTo()
     {
-        if (Position.DistanceTo(targetPosition) > 8.0f)
+        if (navPath == null || navPath.IsNavigationFinished())
         {
-            Velocity = Position.DirectionTo(targetPosition) * Speed;
-            return true;
+            return false;
         }
 
-        return false;
+        Vector2 nextPoint = navPath.GetNextNavigationPoint(Position);
+        Velocity = Position.DirectionTo(nextPoint) * Speed;
+
+        return true;
     }
 
     public override void MoveTo(Vector2 position)
     {
         ResetInputs();
+
+        navPath = Map.AStarComponent.GetPath(Position, position);
 
         targetPosition = position;
     }
