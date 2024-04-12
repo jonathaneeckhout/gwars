@@ -8,13 +8,13 @@ public partial class AStarComponent : Node
 {
     public static readonly Vector2I[] Directions = {
         Vector2I.Right,
-        new Vector2I(1, 1),
+        // new Vector2I(1, 1),
         Vector2I.Up,
-        new Vector2I(-1, 1),
+        // new Vector2I(-1, 1),
         Vector2I.Left,
-        new Vector2I(-1, -1),
+        // new Vector2I(-1, -1),
         Vector2I.Down,
-        new Vector2I(1, -1)
+        // new Vector2I(1, -1)
          };
 
     public TileMap NavigationMap { get; set; } = null;

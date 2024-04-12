@@ -13,7 +13,6 @@ bg_color = Color(0.717647, 0.0235294, 0.286275, 1)
 script = ExtResource("1_wg1ij")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_si3oh")
 
 [node name="Panel" type="Panel" parent="."]

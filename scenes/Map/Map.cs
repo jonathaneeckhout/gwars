@@ -3,7 +3,7 @@ using System;
 
 public partial class Map : Node2D
 {
-    public const uint TileSize = 64;
+    public const uint TileSize = 32;
     private NetworkManager networkManager = null;
     public NetworkManager NetworkManager
     {
@@ -29,6 +29,7 @@ public partial class Map : Node2D
     private Node2D players = null;
     private Node2D materials = null;
     public AStarComponent AStarComponent = null;
+    public TileMap NavigationMap = null;
     private PackedScene playerScene = GD.Load<PackedScene>("res://scenes/Player/Player.tscn");
     private PackedScene workerScene = GD.Load<PackedScene>("res://scenes/units/minions/Worker/Worker.tscn");
     private PackedScene townhallScene = GD.Load<PackedScene>("res://scenes/units/buildings/Townhall/Townhall.tscn");
@@ -65,14 +66,16 @@ public partial class Map : Node2D
 
     public void ServerStart()
     {
+        NavigationMap = GetNode<TileMap>("%NavigationTileMap");
+        AStarComponent.NavigationMap = NavigationMap;
         ServerGenerateTerrain(new Vector2(-32, -32), 64, 64, 100, 50);
-        AStarComponent.NavigationMap = GetNode<TileMap>("%NavigationTileMap");
         AStarComponent.CreatePathfindingPoints();
     }
 
     public void ServerCreateEntity(Player player, string entityName, Vector2 position, bool regenPathfinding = true)
     {
         bool triggerRegenPathfinding = false;
+        Vector2 gridPosition = SnapToGrid(position);
 
         switch (entityName)
         {
@@ -87,19 +90,22 @@ public partial class Map : Node2D
                 Townhall townhall = (Townhall)townhallScene.Instantiate();
                 townhall.PlayerName = player.Name;
                 townhall.Map = this;
-                townhall.Position = SnapToGrid(position);
+                townhall.Position = gridPosition;
+                UpdateNavigationMap(gridPosition, true);
                 units.AddChild(townhall, true);
                 triggerRegenPathfinding = true;
                 break;
             case "Tree":
                 Tree tree = (Tree)treeScene.Instantiate();
-                tree.Position = SnapToGrid(position);
+                tree.Position = gridPosition;
+                UpdateNavigationMap(gridPosition, true);
                 materials.AddChild(tree, true);
                 triggerRegenPathfinding = true;
                 break;
             case "Berries":
                 Berries berries = (Berries)berriesScene.Instantiate();
-                berries.Position = SnapToGrid(position);
+                berries.Position = gridPosition;
+                UpdateNavigationMap(gridPosition, true);
                 materials.AddChild(berries, true);
                 triggerRegenPathfinding = true;
                 break;
@@ -112,8 +118,13 @@ public partial class Map : Node2D
         {
             AStarComponent.CreatePathfindingPoints();
         }
-
     }
+
+    private void UpdateNavigationMap(Vector2 position, bool isColliding)
+    {
+        NavigationMap.SetCell(0, NavigationMap.LocalToMap(position), isColliding ? 0 : 1);
+    }
+
     public Unit GetClosestStorage(string playerName, Vector2 position)
     {
         Unit closestStorage = null;
